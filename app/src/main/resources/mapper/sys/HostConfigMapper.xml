@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.app.dao.sys.HostConfigDAO">
+
+    <resultMap id="BaseResultMap" type="com.base.app.po.sys.HostConfigPo">
+        <result column="config_id" property="configId" />
+        <result column="host" property="host" />
+        <result column="config_json" property="configJson" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        config_id,
+                host,
+                config_json,
+                gmt_create,
+                gmt_modified
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+            <if test="extra.host != null and extra.host != ''">
+                AND host like concat('%',#{extra.host},'%')
+            </if>
+        </where>
+    </sql>
+
+    <insert id="add" useGeneratedKeys="true" keyColumn="config_id" keyProperty="configId" parameterType="com.base.app.po.sys.HostConfigPo">
+        INSERT INTO t_host_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test ='null != configId'>
+                config_id,
+            </if>
+            <if test ='null != host'>
+                host,
+            </if>
+            <if test ='null != configJson'>
+                config_json,
+            </if>
+            <if test ='null != gmtCreate'>
+                gmt_create,
+            </if>
+            <if test ='null != gmtModified'>
+                gmt_modified
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test ='null != configId'>
+                #{configId},
+            </if>
+            <if test ='null != host'>
+                #{host},
+            </if>
+            <if test ='null != configJson'>
+                #{configJson},
+            </if>
+            <if test ='null != gmtCreate'>
+                #{gmtCreate},
+            </if>
+            <if test ='null != gmtModified'>
+                #{gmtModified}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM t_host_config
+        WHERE config_id = #{configId}
+    </delete>
+
+    <update id="update" parameterType="com.base.app.po.sys.HostConfigPo">
+        UPDATE t_host_config
+        <set>
+            <if test ='null != configId'>config_id = #{configId},</if>
+            <if test ='null != host'>host = #{host},</if>
+            <if test ='null != configJson'>config_json = #{configJson},</if>
+            <if test ='null != gmtCreate'>gmt_create = #{gmtCreate},</if>
+            <if test ='null != gmtModified'>gmt_modified = #{gmtModified}</if>
+        </set>
+        WHERE config_id = #{configId}
+    </update>
+
+
+    <select id="queryById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_host_config
+        WHERE config_id = #{configId}
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT
+        config_id,
+        host,
+        config_json,
+        gmt_create
+        FROM t_host_config
+        <include refid="Where_Clause"/>
+        order by gmt_create desc
+        <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM t_host_config
+        <include refid="Where_Clause" />
+    </select>
+
+    <select id="selectHost" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_host_config
+        WHERE host = #{host}
+    </select>
+
+</mapper>

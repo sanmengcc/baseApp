@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.app.dao.sys.SystemModuleDAO">
+
+    <resultMap id="BaseResultMap" type="com.base.app.po.sys.SystemModulePo">
+        <result column="module_id" property="moduleId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="auth_code" property="authCode"/>
+        <result column="router_name" property="routerName"/>
+        <result column="server_api" property="serverApi"/>
+        <result column="type" property="type"/>
+        <result column="jump_action" property="jumpAction"/>
+        <result column="icon" property="icon"/>
+        <result column="del_status" property="delStatus"/>
+        <result column="has_child" property="hasChild"/>
+        <result column="enable_status" property="enableStatus"/>
+        <result column="hidden" property="hidden"/>
+        <result column="config_json" property="configJson"/>
+        <result column="seq" property="seq"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        module_id
+        ,
+                parent_id,
+                name,
+                router_name,
+                auth_code,
+                server_api,
+                type,
+                jump_action,
+                has_child,
+                icon,
+                del_status,
+                enable_status,
+                hidden,
+                config_json,
+                seq,
+                gmt_create,
+                gmt_modified
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+            <if test="extra.parentId != null and extra.parentId != ''">
+                AND parent_id = #{extra.parentId}
+            </if>
+            <if test="extra.keyword != null and extra.keyword != ''">
+                AND name like  concat('%',#{extra.parentId},'%')
+            </if>
+            AND del_status = '1'
+        </where>
+    </sql>
+
+    <insert id="add" parameterType="com.base.app.po.sys.SystemModulePo">
+        INSERT INTO t_system_module
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test='null != moduleId'>
+                module_id,
+            </if>
+            <if test='null != parentId'>
+                parent_id,
+            </if>
+            <if test='null != hasChild'>
+                has_child,
+            </if>
+            <if test='null != serverApi'>
+                server_api,
+            </if>
+            <if test='null != name'>
+                name,
+            </if>
+            <if test='null != routerName'>
+                router_name,
+            </if>
+            <if test='null != authCode'>
+                auth_code,
+            </if>
+            <if test='null != type'>
+                type,
+            </if>
+            <if test='null != jumpAction'>
+                jump_action,
+            </if>
+            <if test='null != icon'>
+                icon,
+            </if>
+            <if test='null != delStatus'>
+                del_status,
+            </if>
+            <if test='null != enableStatus'>
+                enable_status,
+            </if>
+            <if test='null != hidden'>
+                hidden,
+            </if>
+            <if test='null != configJson'>
+                config_json,
+            </if>
+            <if test='null != seq'>
+                seq,
+            </if>
+            <if test='null != gmtCreate'>
+                gmt_create,
+            </if>
+            <if test='null != gmtModified'>
+                gmt_modified
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test='null != moduleId'>
+                #{moduleId},
+            </if>
+            <if test='null != parentId'>
+                #{parentId},
+            </if>
+            <if test='null != hasChild'>
+                #{hasChild},
+            </if>
+            <if test='null != serverApi'>
+                #{serverApi},
+            </if>
+            <if test='null != name'>
+                #{name},
+            </if>
+            <if test='null != routerName'>
+                #{routerName},
+            </if>
+            <if test='null != authCode'>
+                #{authCode},
+            </if>
+            <if test='null != type'>
+                #{type},
+            </if>
+            <if test='null != jumpAction'>
+                #{jumpAction},
+            </if>
+            <if test='null != icon'>
+                #{icon},
+            </if>
+            <if test='null != delStatus'>
+                #{delStatus},
+            </if>
+            <if test='null != enableStatus'>
+                #{enableStatus},
+            </if>
+            <if test='null != hidden'>
+                #{hidden},
+            </if>
+            <if test='null != configJson'>
+                #{configJson},
+            </if>
+            <if test='null != seq'>
+                #{seq},
+            </if>
+            <if test='null != gmtCreate'>
+                #{gmtCreate},
+            </if>
+            <if test='null != gmtModified'>
+                #{gmtModified}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="delete">
+        UPDATE t_system_module
+        SET del_status = '2'
+        WHERE module_id = #{moduleId}
+    </update>
+
+    <update id="update" parameterType="com.base.app.po.sys.SystemModulePo">
+        UPDATE t_system_module
+        <set>
+            <if test='null != moduleId'>module_id = #{moduleId},</if>
+            <if test='null != parentId'>parent_id = #{parentId},</if>
+            <if test='null != name'>name = #{name},</if>
+            <if test='null != serverApi'>server_api = #{serverApi},</if>
+            <if test='null != routerName'>router_name = #{routerName},</if>
+            <if test='null != hasChild'>has_child = #{hasChild},</if>
+            <if test='null != authCode'>auth_code = #{authCode},</if>
+            <if test='null != type'>type = #{type},</if>
+            <if test='null != jumpAction'>jump_action = #{jumpAction},</if>
+            <if test='null != icon'>icon = #{icon},</if>
+            <if test='null != delStatus'>del_status = #{delStatus},</if>
+            <if test='null != enableStatus'>enable_status = #{enableStatus},</if>
+            <if test='null != hidden'>hidden = #{hidden},</if>
+            <if test='null != configJson'>config_json = #{configJson},</if>
+            <if test='null != seq'>seq = #{seq},</if>
+            <if test='null != gmtCreate'>gmt_create = #{gmtCreate},</if>
+            <if test='null != gmtModified'>gmt_modified = #{gmtModified}</if>
+        </set>
+        WHERE module_id = #{moduleId}
+    </update>
+
+    <update id="updateHasChild">
+        UPDATE t_system_module
+        SET has_child = #{hasChild}
+        WHERE module_id = #{moduleId}
+    </update>
+
+
+    <select id="queryById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_system_module
+        WHERE module_id = #{moduleId}
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_system_module
+        <include refid="Where_Clause"/>
+        <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+    <select id="selectNoPage" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_system_module
+        <include refid="Where_Clause"/>
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM t_system_module
+        <include refid="Where_Clause"/>
+    </select>
+
+    <select id="selectByParentId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_system_module
+        WHERE parent_id = #{parentId} AND del_status = '1'
+    </select>
+</mapper>

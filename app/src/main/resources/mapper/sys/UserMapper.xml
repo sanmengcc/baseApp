@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.app.dao.sys.UserDAO">
+
+    <resultMap id="BaseResultMap" type="com.base.app.po.sys.UserPo">
+        <result column="user_id" property="userId" />
+        <result column="real_name" property="realName" />
+        <result column="nick_name" property="nickName" />
+        <result column="user_account" property="userAccount" />
+        <result column="password" property="password" />
+        <result column="email" property="email" />
+        <result column="user_global_id" property="userGlobalId" />
+        <result column="birthday" property="birthday" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="sex" property="sex" />
+        <result column="mobile" property="mobile" />
+        <result column="status" property="status" />
+        <result column="del_status" property="delStatus" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id,
+                real_name,
+                nick_name,
+                user_account,
+                avatar_url,
+                password,
+                email,
+                user_global_id,
+                birthday,
+                sex,
+                mobile,
+                status,
+                del_status,
+                gmt_create,
+                gmt_modified
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+            <if test="extra.keyword != null and extra.keyword != ''">
+                AND (
+                nick_name like concat('%',#{extra.keyword},'%') or
+                user_account like concat('%',#{extra.keyword},'%') or
+                user_global_id like concat('%',#{extra.keyword},'%') or
+                email like concat('%',#{extra.keyword},'%') or
+                mobile like concat('%',#{extra.keyword},'%')
+                )
+            </if>
+            <if test="extra.status != null and extra.status != ''">
+                AND status = #{extra.status}
+            </if>
+            AND del_status = '1'
+        </where>
+    </sql>
+
+    <insert id="add" useGeneratedKeys="true" keyColumn="user_id" keyProperty="userId" parameterType="com.base.app.po.sys.UserPo">
+        INSERT INTO base_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test ='null != userId'>
+                user_id,
+            </if>
+            <if test ='null != realName'>
+                real_name,
+            </if>
+            <if test ='null != nickName'>
+                nick_name,
+            </if>
+            <if test ='null != password'>
+                password,
+            </if>
+            <if test ='null != avatarUrl'>
+                avatar_url,
+            </if>
+            <if test ='null != userAccount'>
+                user_account,
+            </if>
+            <if test ='null != email'>
+                email,
+            </if>
+            <if test ='null != userGlobalId'>
+                user_global_id,
+            </if>
+            <if test ='null != birthday'>
+                birthday,
+            </if>
+            <if test ='null != sex'>
+                sex,
+            </if>
+            <if test ='null != mobile'>
+                mobile,
+            </if>
+            <if test ='null != status'>
+                status,
+            </if>
+            <if test ='null != delStatus'>
+                del_status,
+            </if>
+            <if test ='null != gmtCreate'>
+                gmt_create,
+            </if>
+            <if test ='null != gmtModified'>
+                gmt_modified
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test ='null != userId'>
+                #{userId},
+            </if>
+            <if test ='null != realName'>
+                #{realName},
+            </if>
+            <if test ='null != nickName'>
+                #{nickName},
+            </if>
+            <if test ='null != password'>
+                #{password},
+            </if>
+            <if test ='null != avatarUrl'>
+                #{avatarUrl},
+            </if>
+            <if test ='null != userAccount'>
+                #{userAccount},
+            </if>
+            <if test ='null != email'>
+                #{email},
+            </if>
+            <if test ='null != userGlobalId'>
+                #{userGlobalId},
+            </if>
+            <if test ='null != birthday'>
+                #{birthday},
+            </if>
+            <if test ='null != sex'>
+                #{sex},
+            </if>
+            <if test ='null != mobile'>
+                #{mobile},
+            </if>
+            <if test ='null != status'>
+                #{status},
+            </if>
+            <if test ='null != delStatus'>
+                #{delStatus},
+            </if>
+            <if test ='null != gmtCreate'>
+                #{gmtCreate},
+            </if>
+            <if test ='null != gmtModified'>
+                #{gmtModified}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM base_user
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.base.app.po.sys.UserPo">
+        UPDATE base_user
+        <set>
+            <if test ='null != userId'>user_id = #{userId},</if>
+            <if test ='null != realName'>real_name = #{realName},</if>
+            <if test ='null != nickName'>nick_name = #{nickName},</if>
+            <if test ='null != userAccount'>user_account = #{userAccount},</if>
+            <if test ='null != email'>email = #{email},</if>
+            <if test ='null != userGlobalId'>user_global_id = #{userGlobalId},</if>
+            <if test ='null != birthday'>birthday = #{birthday},</if>
+            <if test ='null != avatarUrl'>avatar_url = #{avatarUrl},</if>
+            <if test ='null != sex'>sex = #{sex},</if>
+            <if test ='null != mobile'>mobile = #{mobile},</if>
+            <if test ='null != status'>status = #{status},</if>
+            <if test ='null != delStatus'>del_status = #{delStatus},</if>
+            <if test ='null != gmtCreate'>gmt_create = #{gmtCreate},</if>
+            <if test ='null != gmtModified'>gmt_modified = #{gmtModified}</if>
+        </set>
+        WHERE user_global_id = #{userGlobalId}
+    </update>
+
+    <update id="changePassword">
+        UPDATE base_user
+        SET password = #{password},gmt_modified = NOW()
+        WHERE user_global_id = #{userGlobalId}
+    </update>
+
+
+    <select id="queryById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM base_user
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM base_user
+        <include refid="Where_Clause"/>
+        order by gmt_create desc
+        <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM base_user
+        <include refid="Where_Clause" />
+    </select>
+
+    <select id="selectByGlobalId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM base_user
+        WHERE user_global_id = #{userGlobalId}
+    </select>
+
+</mapper>

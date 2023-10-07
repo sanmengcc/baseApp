@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.app.dao.sys.StaffArchiveDAO">
+
+    <resultMap id="BaseResultMap" type="com.base.app.po.sys.StaffArchivePo">
+        <result column="archive_id" property="archiveId" />
+        <result column="staff_id" property="staffId" />
+        <result column="staff_name" property="staffName" />
+        <result column="mobile" property="mobile" />
+        <result column="email" property="email" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="remark" property="remark" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        archive_id,
+                staff_id,
+                staff_name,
+                mobile,
+                email,
+                avatar_url,
+                remark,
+                gmt_create,
+                gmt_modified
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+
+        </where>
+    </sql>
+
+    <insert id="add" parameterType="com.base.app.po.sys.StaffArchivePo">
+        INSERT INTO t_staff_archive
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test ='null != archiveId'>
+                archive_id,
+            </if>
+            <if test ='null != staffId'>
+                staff_id,
+            </if>
+            <if test ='null != staffName'>
+                staff_name,
+            </if>
+            <if test ='null != mobile'>
+                mobile,
+            </if>
+            <if test ='null != email'>
+                email,
+            </if>
+            <if test ='null != avatarUrl'>
+                avatar_url,
+            </if>
+            <if test ='null != remark'>
+                remark,
+            </if>
+            <if test ='null != gmtCreate'>
+                gmt_create,
+            </if>
+            <if test ='null != gmtModified'>
+                gmt_modified
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test ='null != archiveId'>
+                #{archiveId},
+            </if>
+            <if test ='null != staffId'>
+                #{staffId},
+            </if>
+            <if test ='null != staffName'>
+                #{staffName},
+            </if>
+            <if test ='null != mobile'>
+                #{mobile},
+            </if>
+            <if test ='null != email'>
+                #{email},
+            </if>
+            <if test ='null != avatarUrl'>
+                #{avatarUrl},
+            </if>
+            <if test ='null != remark'>
+                #{remark},
+            </if>
+            <if test ='null != gmtCreate'>
+                #{gmtCreate},
+            </if>
+            <if test ='null != gmtModified'>
+                #{gmtModified}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.base.app.po.sys.StaffArchivePo">
+        UPDATE t_staff_archive
+        <set>
+            <if test ='null != archiveId'>archive_id = #{archiveId},</if>
+            <if test ='null != staffId'>staff_id = #{staffId},</if>
+            <if test ='null != staffName'>staff_name = #{staffName},</if>
+            <if test ='null != mobile'>mobile = #{mobile},</if>
+            <if test ='null != email'>email = #{email},</if>
+            <if test ='null != avatarUrl'>avatar_url = #{avatarUrl},</if>
+            <if test ='null != remark'>remark = #{remark},</if>
+            <if test ='null != gmtCreate'>gmt_create = #{gmtCreate},</if>
+            <if test ='null != gmtModified'>gmt_modified = #{gmtModified}</if>
+        </set>
+        WHERE archive_id = #{archiveId}
+    </update>
+
+    <select id="selectByStaffId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_staff_archive
+        where staff_id = #{staff_id}
+    </select>
+</mapper>

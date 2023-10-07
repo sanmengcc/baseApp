@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.app.dao.sys.StaffRoleDAO">
+
+    <resultMap id="BaseResultMap" type="com.base.app.po.sys.StaffRolePo">
+        <result column="staff_role_id" property="staffRoleId" />
+        <result column="staff_id" property="staffId" />
+        <result column="role_id" property="roleId" />
+        <result column="gmt_create" property="gmtCreate" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        staff_role_id,
+                staff_id,
+                role_id,
+                gmt_create
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+
+        </where>
+    </sql>
+
+    <insert id="add" useGeneratedKeys="true" keyColumn="staff_role_id" keyProperty="staffRoleId" parameterType="com.base.app.po.sys.StaffRolePo">
+        INSERT INTO t_staff_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test ='null != staffRoleId'>
+                staff_role_id,
+            </if>
+            <if test ='null != staffId'>
+                staff_id,
+            </if>
+            <if test ='null != roleId'>
+                role_id,
+            </if>
+            <if test ='null != gmtCreate'>
+                gmt_create
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test ='null != staffRoleId'>
+                #{staffRoleId},
+            </if>
+            <if test ='null != staffId'>
+                #{staffId},
+            </if>
+            <if test ='null != roleId'>
+                #{roleId},
+            </if>
+            <if test ='null != gmtCreate'>
+                #{gmtCreate}
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="addList" useGeneratedKeys="true" parameterType="java.util.List">
+        insert into t_staff_role (
+        staff_id,
+        role_id,
+        gmt_create
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.staffId},
+            #{item.roleId},
+            #{item.gmtCreate}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteStaffId">
+        delete
+        from t_staff_role
+        where staff_id = #{staffId}
+    </delete>
+
+    <delete id="deleteRole">
+        delete
+        from t_staff_role
+        where role_id = #{roleId}
+    </delete>
+
+    <select id="selectStaffRole" resultType="com.base.app.dto.role.RoleDTO">
+        select r.role_name roleName,
+               r.role_id roleId
+        from t_role r,
+             t_staff_role s
+        where r.role_id = s.role_id
+          and s.staff_id = #{staffId}
+    </select>
+
+</mapper>

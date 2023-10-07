@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.app.dao.sys.RequestLogDAO">
+
+    <resultMap id="BaseResultMap" type="com.base.app.po.sys.RequestLogPo">
+        <result column="log_id" property="logId" />
+        <result column="year" property="year" />
+        <result column="year_of_month" property="yearOfMonth" />
+        <result column="account" property="account" />
+        <result column="ip" property="ip" />
+        <result column="method" property="method" />
+        <result column="method_name" property="methodName" />
+        <result column="result" property="result" />
+        <result column="use_time" property="useTime" />
+        <result column="request_data" property="requestData" />
+        <result column="response_data" property="responseData" />
+        <result column="gmt_create" property="gmtCreate" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        log_id,
+                `year`,
+                year_of_month,
+                account,
+                ip,
+                `method`,
+                method_name,
+                `result`,
+                use_time,
+                request_data,
+                response_data,
+                gmt_create
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+            <if test="extra.result != null and extra.result !=''">
+                AND result = #{extra.result}
+            </if>
+            <if test="extra.keyword != null and extra.keyword !=''">
+                AND (method like concat('%',#{extra.keyword},'%') or
+                account like concat('%',#{extra.keyword},'%')
+                 or method_name like concat('%',#{extra.keyword},'%'))
+            </if>
+            <if test="extra.startTime != null and extra.startTime != ''">
+                AND DATE_FORMAT(gmt_create,   '%Y-%m-%d %H:%i:%S') <![CDATA[ >= ]]>  #{extra.startTime}
+            </if>
+            <if test="extra.endTime != null and extra.endTime != ''">
+                AND DATE_FORMAT(gmt_create,   '%Y-%m-%d %H:%i:%S') <![CDATA[ <= ]]>  #{extra.endTime}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="add" useGeneratedKeys="true" keyColumn="log_id" keyProperty="logId" parameterType="com.base.app.po.sys.RequestLogPo">
+        INSERT INTO t_request_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test ='null != logId'>
+                log_id,
+            </if>
+            <if test ='null != year'>
+                year,
+            </if>
+            <if test ='null != yearOfMonth'>
+                year_of_month,
+            </if>
+            <if test ='null != account'>
+                account,
+            </if>
+            <if test ='null != ip'>
+                ip,
+            </if>
+            <if test ='null != method'>
+                method,
+            </if>
+            <if test ='null != methodName'>
+                method_name,
+            </if>
+            <if test ='null != result'>
+                result,
+            </if>
+            <if test ='null != useTime'>
+                use_time,
+            </if>
+            <if test ='null != requestData'>
+                request_data,
+            </if>
+            <if test ='null != responseData'>
+                response_data,
+            </if>
+            <if test ='null != gmtCreate'>
+                gmt_create
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test ='null != logId'>
+                #{logId},
+            </if>
+            <if test ='null != year'>
+                #{year},
+            </if>
+            <if test ='null != yearOfMonth'>
+                #{yearOfMonth},
+            </if>
+            <if test ='null != account'>
+                #{account},
+            </if>
+            <if test ='null != ip'>
+                #{ip},
+            </if>
+            <if test ='null != method'>
+                #{method},
+            </if>
+            <if test ='null != methodName'>
+                #{methodName},
+            </if>
+            <if test ='null != result'>
+                #{result},
+            </if>
+            <if test ='null != useTime'>
+                #{useTime},
+            </if>
+            <if test ='null != requestData'>
+                #{requestData},
+            </if>
+            <if test ='null != responseData'>
+                #{responseData},
+            </if>
+            <if test ='null != gmtCreate'>
+                #{gmtCreate}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteTime">
+        delete
+        from t_request_log
+        where DATE_FORMAT(gmt_create, '%Y-%m-%d %H:%i:%S') <![CDATA[ <= ]]>  #{endTime}
+          AND DATE_FORMAT(gmt_create, '%Y-%m-%d %H:%i:%S') <![CDATA[ >= ]]>  #{startTime}
+    </delete>
+
+    <select id="selectCount" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM t_request_log
+        <include refid="Where_Clause" />
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_request_log
+        <include refid="Where_Clause"/>
+        ORDER BY gmt_create DESC
+        <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+</mapper>

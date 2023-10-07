@@ -1,0 +1,47 @@
+server:
+  port: 9600
+spring:
+  profiles:
+    active: test
+  data:
+    redis:
+      database: 1
+      host: 192.168.9.224
+      port: 20003
+      password:
+  # 数据源
+  dataType: mysql
+  datasource:
+    url: jdbc:mysql://124.70.77.178:3307/base?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml
+api:
+  encrypt: true
+  sign:
+    open: true
+    signKey: sign
+    signStr: siosdosdadsasdasd
+
+base:
+  token:
+    prex: token
+    prexUser: token_user
+    prexPermission: token_permission
+    expires: 3600
+sys:
+  loginPasswordErrorCount: 3
+
+oss:
+  minio:
+    channel: MINIO
+    expiry: 120
+    protocol: public
+    bucketName: base
+    endpoint: http://124.70.77.178:9000
+    secretKey: bk3qU41PMkzuVCqNEU49DpZSdmmqiWmI
+    accessKey: xiQ1NDOrNpot3IEA

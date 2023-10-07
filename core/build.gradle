@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group 'com.base'
+version '1.0'
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework:spring-tx:6.0.2"
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}"
+    implementation "org.apache.commons:commons-lang3:${commonslang3Version}"
+    implementation "commons-beanutils:commons-beanutils:${beanutilsVersion}"
+    implementation "org.aspectj:aspectjweaver:${aspectjVersion}"
+    implementation 'com.github.jsqlparser:jsqlparser:4.4'
+}
+
+test {
+    useJUnitPlatform()
+}

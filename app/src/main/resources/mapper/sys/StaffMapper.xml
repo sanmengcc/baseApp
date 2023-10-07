@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.app.dao.sys.StaffDAO">
+
+    <resultMap id="BaseResultMap" type="com.base.app.po.sys.StaffPo">
+        <result column="staff_id" property="staffId" />
+        <result column="user_global_id" property="userGlobalId" />
+        <result column="account" property="account" />
+        <result column="admin_type" property="adminType" />
+        <result column="entry_date" property="entryDate" />
+        <result column="left_date" property="leftDate" />
+        <result column="status" property="status" />
+        <result column="del_status" property="delStatus" />
+        <result column="last_login_time" property="lastLoginTime" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        staff_id,
+                user_global_id,
+                admin_type,
+                account,
+                entry_date,
+                last_login_time,
+                left_date,
+                status,
+                del_status,
+                gmt_create,
+                gmt_modified
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+
+        </where>
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Staff_Clause">
+        <if test="extra.status != null and extra.status !=''">
+            AND s.status = #{extra.status}
+        </if>
+        <if test="extra.keyword != null and extra.keyword !=''">
+            AND (
+            s.staff_name like concat('%',#{extra.keyword},'%') or
+            s.mobile like concat('%',#{extra.keyword},'%') or
+            a.account like concat('%',#{extra.keyword},'%') or
+            s.email like concat('%',#{extra.keyword},'%')
+            )
+        </if>
+        AND del_status = '1'
+    </sql>
+
+    <insert id="add" parameterType="com.base.app.po.sys.StaffPo">
+        INSERT INTO t_staff
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test ='null != staffId'>
+                staff_id,
+            </if>
+            <if test ='null != userGlobalId'>
+                user_global_id,
+            </if>
+            <if test ='null != account'>
+                account,
+            </if>
+            <if test ='null != lastLoginTime'>
+                last_login_time,
+            </if>
+            <if test ='null != adminType'>
+                admin_type,
+            </if>
+            <if test ='null != entryDate'>
+                entry_date,
+            </if>
+            <if test ='null != leftDate'>
+                left_date,
+            </if>
+            <if test ='null != status'>
+                status,
+            </if>
+            <if test ='null != delStatus'>
+                del_status,
+            </if>
+            <if test ='null != gmtCreate'>
+                gmt_create,
+            </if>
+            <if test ='null != gmtModified'>
+                gmt_modified
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test ='null != staffId'>
+                #{staffId},
+            </if>
+            <if test ='null != userGlobalId'>
+                #{userGlobalId},
+            </if>
+            <if test ='null != account'>
+                #{account},
+            </if>
+            <if test ='null != lastLoginTime'>
+                #{lastLoginTime},
+            </if>
+            <if test ='null != adminType'>
+                #{adminType},
+            </if>
+            <if test ='null != entryDate'>
+                #{entryDate},
+            </if>
+            <if test ='null != leftDate'>
+                #{leftDate},
+            </if>
+            <if test ='null != status'>
+                #{status},
+            </if>
+            <if test ='null != delStatus'>
+                #{delStatus},
+            </if>
+            <if test ='null != gmtCreate'>
+                #{gmtCreate},
+            </if>
+            <if test ='null != gmtModified'>
+                #{gmtModified}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="delete" >
+        UPDATE t_staff
+        SET del_status = '2'
+        WHERE staff_id = #{staffId}
+    </update>
+
+    <update id="update" parameterType="com.base.app.po.sys.StaffPo">
+        UPDATE t_staff
+        <set>
+            <if test ='null != staffId'>staff_id = #{staffId},</if>
+            <if test ='null != userGlobalId'>user_global_id = #{userGlobalId},</if>
+            <if test ='null != account'>account = #{account},</if>
+            <if test ='null != lastLoginTime'>last_login_time = #{lastLoginTime},</if>
+            <if test ='null != adminType'>admin_type = #{adminType},</if>
+            <if test ='null != entryDate'>entry_date = #{entryDate},</if>
+            <if test ='null != leftDate'>left_date = #{leftDate},</if>
+            <if test ='null != status'>status = #{status},</if>
+            <if test ='null != delStatus'>del_status = #{delStatus},</if>
+            <if test ='null != gmtCreate'>gmt_create = #{gmtCreate},</if>
+            <if test ='null != gmtModified'>gmt_modified = #{gmtModified}</if>
+        </set>
+        WHERE staff_id = #{staffId}
+    </update>
+
+
+    <select id="queryById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_staff
+        WHERE staff_id = #{staffId}
+    </select>
+
+    <select id="selectStaffCount" resultType="java.lang.Long">
+        select count(1)
+        from t_staff s,
+             t_staff_archive a
+        where s.staff_id = a.staff_id
+        <include refid="Where_Staff_Clause"/>
+    </select>
+
+    <select id="selectStaff" resultType="com.base.app.dto.staff.StaffDTO">
+        select
+        s.staff_id staffId,
+        s.user_global_id userGlobalId,
+        s.admin_type adminType,
+        s.entry_date entryDate,
+        s.left_date leftDate,
+        s.status,
+        s.gmt_create gmtCreate,
+        a.archive_id archiveId,
+        staff_name staffName,
+        account,
+        last_login_time lastLoginTime,
+        mobile,
+        email,
+        avatar_url avatarUrl,
+        remark
+        from t_staff s,
+        t_staff_archive a
+        where s.staff_id = a.staff_id
+        <include refid="Where_Staff_Clause"/>
+        ORDER BY a.gmt_create DESC
+        <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+    <select id="selectUserGlobalId" resultType="com.base.app.dto.staff.StaffDTO">
+        select
+            s.staff_id staffId,
+            s.user_global_id userGlobalId,
+            s.admin_type adminType,
+            s.entry_date entryDate,
+            s.left_date leftDate,
+            s.status,
+            s.gmt_create gmtCreate,
+            a.archive_id archiveId,
+            staff_name staffName,
+            account,
+            last_login_time lastLoginTime,
+            mobile,
+            email,
+            avatar_url avatarUrl,
+            remark
+        from t_staff s,
+             t_staff_archive a
+        where s.staff_id = a.staff_id and s.user_global_id = #{userGlobalId} and s.del_status = '1'
+    </select>
+
+</mapper>

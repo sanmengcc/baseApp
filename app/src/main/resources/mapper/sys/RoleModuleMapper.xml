@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.app.dao.sys.RoleModuleDAO">
+
+    <resultMap id="BaseResultMap" type="com.base.app.po.sys.RoleModulePo">
+        <result column="role_module_id" property="roleModuleId" />
+        <result column="role_id" property="roleId" />
+        <result column="module_id" property="moduleId" />
+        <result column="gmt_create" property="gmtCreate" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        role_module_id,
+                role_id,
+                module_id,
+                gmt_create
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+
+        </where>
+    </sql>
+
+    <insert id="addList" useGeneratedKeys="true" parameterType="java.util.List">
+        insert into t_role_module (
+        role_id,
+        module_id,
+        gmt_create
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.roleId},
+            #{item.moduleId},
+            #{item.gmtCreate}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteRole">
+        delete
+        from t_role_module
+        where role_id = #{roleId}
+    </delete>
+
+    <select id="selectRoleHasModuleId" resultType="java.lang.String">
+        select module_id
+        from t_role_module
+        where role_id = #{roleId}
+    </select>
+
+    <select id="selectStaffHasModule" resultType="java.lang.String">
+        select m.module_id
+        from t_role_module m,
+             t_staff_role s
+        where m.role_id = s.role_id
+          and s.staff_id = #{staffId}
+    </select>
+
+</mapper>

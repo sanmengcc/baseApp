@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.app.dao.sys.UserLoginDAO">
+
+    <resultMap id="BaseResultMap" type="com.base.app.po.sys.UserLoginPo">
+        <result column="login_id" property="loginId" />
+        <result column="user_global_id" property="userGlobalId" />
+        <result column="change_date" property="changeDate" />
+        <result column="login_error_count" property="loginErrorCount" />
+        <result column="last_login_ip" property="lastLoginIp" />
+        <result column="last_login_city" property="lastLoginCity" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        login_id,
+        user_global_id,
+        change_date,
+        login_error_count,
+        last_login_ip,
+        last_login_city,
+        gmt_create,
+        gmt_modified
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+
+        </where>
+    </sql>
+
+    <insert id="add" useGeneratedKeys="true" keyColumn="login_id" keyProperty="loginId" parameterType="com.base.app.po.sys.UserLoginPo">
+        INSERT INTO base_user_login
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test ='null != loginId'>
+                login_id,
+            </if>
+            <if test ='null != userGlobalId'>
+                user_global_id,
+            </if>
+            <if test ='null != changeDate'>
+                change_date,
+            </if>
+            <if test ='null != loginErrorCount'>
+                login_error_count,
+            </if>
+            <if test ='null != lastLoginIp'>
+                last_login_ip,
+            </if>
+            <if test ='null != lastLoginCity'>
+                last_login_city,
+            </if>
+            <if test ='null != gmtCreate'>
+                gmt_create,
+            </if>
+            <if test ='null != gmtModified'>
+                gmt_modified
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test ='null != loginId'>
+                #{loginId},
+            </if>
+            <if test ='null != userGlobalId'>
+                #{userGlobalId},
+            </if>
+            <if test ='null != changeDate'>
+                #{changeDate},
+            </if>
+            <if test ='null != loginErrorCount'>
+                #{loginErrorCount},
+            </if>
+            <if test ='null != lastLoginIp'>
+                #{lastLoginIp},
+            </if>
+            <if test ='null != lastLoginCity'>
+                #{lastLoginCity},
+            </if>
+            <if test ='null != gmtCreate'>
+                #{gmtCreate},
+            </if>
+            <if test ='null != gmtModified'>
+                #{gmtModified}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM base_user_login
+        WHERE user_global_id = #{userGlobalId}
+    </delete>
+
+    <update id="update" parameterType="com.base.app.po.sys.UserLoginPo">
+        UPDATE base_user_login
+        <set>
+            <if test ='null != loginId'>login_id = #{loginId},</if>
+            <if test ='null != userGlobalId'>user_global_id = #{userGlobalId},</if>
+            <if test ='null != changeDate'>change_date = #{changeDate},</if>
+            <if test ='null != loginErrorCount'>login_error_count = #{loginErrorCount},</if>
+            <if test ='null != lastLoginIp'>last_login_ip = #{lastLoginIp},</if>
+            <if test ='null != lastLoginCity'>last_login_city = #{lastLoginCity},</if>
+            <if test ='null != gmtCreate'>gmt_create = #{gmtCreate},</if>
+            <if test ='null != gmtModified'>gmt_modified = #{gmtModified}</if>
+        </set>
+        WHERE user_global_id = #{userGlobalId}
+    </update>
+
+
+    <select id="queryById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM base_user_login
+        WHERE user_global_id = #{userGlobalId}
+    </select>
+
+</mapper>

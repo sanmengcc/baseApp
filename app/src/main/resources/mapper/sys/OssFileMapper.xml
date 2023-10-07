@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.app.dao.sys.OssFileDAO">
+
+    <resultMap id="BaseResultMap" type="com.base.app.po.sys.OssFilePo">
+        <result column="file_id" property="fileId" />
+        <result column="file_name" property="fileName" />
+        <result column="protocol" property="protocol" />
+        <result column="bucket_name" property="bucketName" />
+        <result column="file_size" property="fileSize" />
+        <result column="file_url" property="fileUrl" />
+        <result column="file_md5" property="fileMd5" />
+        <result column="creator_id" property="creatorId" />
+        <result column="creator_name" property="creatorName" />
+        <result column="gmt_create" property="gmtCreate" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        file_id,
+                file_name,
+                bucket_name,
+                protocol,
+                file_size,
+                file_url,
+                file_md5,
+                creator_id,
+                creator_name,
+                gmt_create
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+            <if test="extra.keyword != null and extra.keyword != ''">
+                AND ( bucket_name like concat('%',#{extra.keyword},'%') or
+                file_url like concat('%',#{extra.keyword},'%') or
+                file_name like concat('%',#{extra.keyword},'%')
+                )
+            </if>
+        </where>
+    </sql>
+
+    <insert id="add" useGeneratedKeys="true" keyColumn="file_id" keyProperty="fileId" parameterType="com.base.app.po.sys.OssFilePo">
+        INSERT INTO t_oss_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test ='null != fileName'>
+                file_name,
+            </if>
+            <if test ='null != protocol'>
+                protocol,
+            </if>
+            <if test ='null != bucketName'>
+                bucket_name,
+            </if>
+            <if test ='null != fileSize'>
+                file_size,
+            </if>
+            <if test ='null != fileUrl'>
+                file_url,
+            </if>
+            <if test ='null != fileMd5'>
+                file_md5,
+            </if>
+            <if test ='null != creatorId'>
+                creator_id,
+            </if>
+            <if test ='null != creatorName'>
+                creator_name,
+            </if>
+            <if test ='null != gmtCreate'>
+                gmt_create
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test ='null != fileName'>
+                #{fileName},
+            </if>
+            <if test ='null != protocol'>
+                #{protocol},
+            </if>
+            <if test ='null != bucketName'>
+                #{bucketName},
+            </if>
+            <if test ='null != fileSize'>
+                #{fileSize},
+            </if>
+            <if test ='null != fileUrl'>
+                #{fileUrl},
+            </if>
+            <if test ='null != fileMd5'>
+                #{fileMd5},
+            </if>
+            <if test ='null != creatorId'>
+                #{creatorId},
+            </if>
+            <if test ='null != creatorName'>
+                #{creatorName},
+            </if>
+            <if test ='null != gmtCreate'>
+                #{gmtCreate}
+            </if>
+        </trim>
+    </insert>
+
+    <select id="queryByMd5" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_oss_file
+        WHERE file_md5 = #{fileMd5}
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM t_oss_file
+        <include refid="Where_Clause" />
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_oss_file
+        <include refid="Where_Clause"/>
+        ORDER BY gmt_create DESC
+        <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+</mapper>

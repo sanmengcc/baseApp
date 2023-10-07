@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+}
+
+group 'com.base'
+version '1.0'
+def artifactId = "app"
+
+repositories {
+    mavenCentral()
+}
+sourceSets {
+    main
+    api
+}
+dependencies {
+    //cloud
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    //redis
+    implementation "org.springframework.boot:spring-boot-starter-data-redis"
+    // mysql
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}"
+    implementation "mysql:mysql-connector-java"
+    implementation "io.minio:minio:8.2.1"
+    //加解密
+    implementation 'commons-codec:commons-codec:1.6'
+    // kaptcha
+    implementation "com.github.penggle:kaptcha:${kaptchaVersion}"
+    // my module
+    implementation project(":core")
+    apiImplementation project(":core")
+    // 引入自身的api模块
+    implementation sourceSets.api.output
+}
+
+test {
+    useJUnitPlatform()
+}

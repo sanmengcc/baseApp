@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.app.dao.sys.SqlLogDAO">
+
+    <resultMap id="BaseResultMap" type="com.base.app.po.sys.SqlLogPo">
+        <result column="log_id" property="logId" />
+        <result column="year" property="year" />
+        <result column="year_of_month" property="yearOfMonth" />
+        <result column="mapper" property="mapper" />
+        <result column="sql" property="sql" />
+        <result column="use_time" property="useTime" />
+        <result column="gmt_create" property="gmtCreate" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        log_id,
+                `year`,
+                year_of_month,
+                mapper,
+                `sql`,
+                use_time,
+                gmt_create
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+            <if test="extra.keyword !=null and extra.keyword !=''">
+                AND mapper like concat('%',#{extra.keyword},'%')
+            </if>
+            <if test="extra.startTime !=null and extra.startTime !=''">
+                AND use_time <![CDATA[ >= ]]>  #{extra.startTime}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="add" useGeneratedKeys="true" keyColumn="log_id" keyProperty="logId" parameterType="com.base.app.po.sys.SqlLogPo">
+        INSERT INTO t_sql_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test ='null != logId'>
+                log_id,
+            </if>
+            <if test ='null != year'>
+                `year`,
+            </if>
+            <if test ='null != yearOfMonth'>
+                year_of_month,
+            </if>
+            <if test ='null != mapper'>
+                mapper,
+            </if>
+            <if test ='null != sql'>
+                `sql`,
+            </if>
+            <if test ='null != useTime'>
+                use_time,
+            </if>
+            <if test ='null != gmtCreate'>
+                gmt_create
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test ='null != logId'>
+                #{logId},
+            </if>
+            <if test ='null != year'>
+                #{year},
+            </if>
+            <if test ='null != yearOfMonth'>
+                #{yearOfMonth},
+            </if>
+            <if test ='null != mapper'>
+                #{mapper},
+            </if>
+            <if test ='null != sql'>
+                #{sql},
+            </if>
+            <if test ='null != useTime'>
+                #{useTime},
+            </if>
+            <if test ='null != gmtCreate'>
+                #{gmtCreate}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteTime">
+        delete
+        from t_sql_log
+        where DATE_FORMAT(gmt_create, '%Y-%m-%d %H:%i:%S') <![CDATA[ <= ]]>  #{endTime}
+          AND DATE_FORMAT(gmt_create, '%Y-%m-%d %H:%i:%S') <![CDATA[ >= ]]>  #{startTime}
+    </delete>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_sql_log
+        <include refid="Where_Clause"/>
+        order by gmt_create desc
+        <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+    <select id="queryById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_sql_log
+        where log_id = #{logId}
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM t_sql_log
+        <include refid="Where_Clause" />
+    </select>
+
+</mapper>

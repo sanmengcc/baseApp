@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.app.dao.sys.UserAccountDAO">
+
+    <resultMap id="BaseResultMap" type="com.base.app.po.sys.UserAccountPo">
+        <result column="account_id" property="accountId" />
+        <result column="user_global_id" property="userGlobalId" />
+        <result column="account" property="account" />
+        <result column="account_type" property="accountType" />
+        <result column="status" property="status" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        account_id,
+                user_global_id,
+                account,
+                account_type,
+                status,
+                gmt_create,
+                gmt_modified
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+
+        </where>
+    </sql>
+
+    <insert id="add" useGeneratedKeys="true" keyColumn="account_id" keyProperty="accountId" parameterType="com.base.app.po.sys.UserAccountPo">
+        INSERT INTO base_user_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test ='null != accountId'>
+                account_id,
+            </if>
+            <if test ='null != userGlobalId'>
+                user_global_id,
+            </if>
+            <if test ='null != account'>
+                account,
+            </if>
+            <if test ='null != accountType'>
+                account_type,
+            </if>
+            <if test ='null != status'>
+                status,
+            </if>
+            <if test ='null != gmtCreate'>
+                gmt_create,
+            </if>
+            <if test ='null != gmtModified'>
+                gmt_modified
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test ='null != accountId'>
+                #{accountId},
+            </if>
+            <if test ='null != userGlobalId'>
+                #{userGlobalId},
+            </if>
+            <if test ='null != account'>
+                #{account},
+            </if>
+            <if test ='null != accountType'>
+                #{accountType},
+            </if>
+            <if test ='null != status'>
+                #{status},
+            </if>
+            <if test ='null != gmtCreate'>
+                #{gmtCreate},
+            </if>
+            <if test ='null != gmtModified'>
+                #{gmtModified}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteUserGlobalId">
+        DELETE FROM base_user_account
+        WHERE user_global_id = #{userGlobalId}
+    </delete>
+
+    <update id="update" parameterType="com.base.app.po.sys.UserAccountPo">
+        UPDATE base_user_account
+        <set>
+            <if test ='null != accountId'>account_id = #{accountId},</if>
+            <if test ='null != userGlobalId'>user_global_id = #{userGlobalId},</if>
+            <if test ='null != account'>account = #{account},</if>
+            <if test ='null != accountType'>account_type = #{accountType},</if>
+            <if test ='null != status'>status = #{status},</if>
+            <if test ='null != gmtCreate'>gmt_create = #{gmtCreate},</if>
+            <if test ='null != gmtModified'>gmt_modified = #{gmtModified}</if>
+        </set>
+        WHERE account_id = #{accountId}
+    </update>
+
+
+    <select id="queryById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM base_user_account
+        WHERE account_id = #{accountId}
+    </select>
+
+    <select id="selectUserGlobalId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM base_user_account
+        WHERE user_global_id = #{userGlobalId}
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM base_user_account
+        <include refid="Where_Clause" />
+        <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM base_user_account
+        <include refid="Where_Clause" />
+    </select>
+
+    <select id="selectByAccount" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM base_user_account
+        WHERE account = #{account}
+    </select>
+
+    <insert id="addList" useGeneratedKeys="true" parameterType="java.util.List">
+        insert into base_user_account (
+        user_global_id,
+        account,
+        account_type,
+        status,
+        gmt_create,
+        gmt_modified
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.userGlobalId},
+            #{item.account},
+            #{item.accountType},
+            #{item.status},
+            #{item.gmtCreate},
+            #{item.gmtModified}
+            )
+        </foreach>
+    </insert>
+</mapper>

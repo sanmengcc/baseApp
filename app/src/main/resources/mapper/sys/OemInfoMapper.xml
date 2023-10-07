@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.app.dao.sys.OemInfoDAO">
+
+    <resultMap id="BaseResultMap" type="com.base.app.po.sys.OemInfoPo">
+        <result column="oem_id" property="oemId"/>
+        <result column="oem_name" property="oemName"/>
+        <result column="oem_code" property="oemCode"/>
+        <result column="oem_mobile" property="oemMobile"/>
+        <result column="oem_addr" property="oemAddr"/>
+        <result column="oem_desc" property="oemDesc"/>
+        <result column="start_date" property="startDate"/>
+        <result column="end_date" property="endDate"/>
+        <result column="del_status" property="delStatus"/>
+        <result column="oem_status" property="oemStatus"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        oem_id
+        ,
+                oem_name,
+                oem_code,
+                oem_mobile,
+                oem_addr,
+                oem_desc,
+                start_date,
+                end_date,
+                del_status,
+                oem_status,
+                gmt_create,
+                gmt_modified
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+
+        </where>
+    </sql>
+
+    <insert id="add" useGeneratedKeys="true" keyColumn="oem_id" keyProperty="oemId"
+            parameterType="com.base.app.po.sys.OemInfoPo">
+        INSERT INTO t_oem_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test='null != oemId'>
+                oem_id,
+            </if>
+            <if test='null != oemName'>
+                oem_name,
+            </if>
+            <if test='null != oemCode'>
+                oem_code,
+            </if>
+            <if test='null != oemMobile'>
+                oem_mobile,
+            </if>
+            <if test='null != oemAddr'>
+                oem_addr,
+            </if>
+            <if test='null != oemDesc'>
+                oem_desc,
+            </if>
+            <if test='null != oemStatus'>
+                oem_status,
+            </if>
+            <if test='null != startDate'>
+                start_date,
+            </if>
+            <if test='null != endDate'>
+                end_date,
+            </if>
+            <if test='null != delStatus'>
+                del_status,
+            </if>
+            <if test='null != gmtCreate'>
+                gmt_create,
+            </if>
+            <if test='null != gmtModified'>
+                gmt_modified
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test='null != oemId'>
+                #{oemId},
+            </if>
+            <if test='null != oemName'>
+                #{oemName},
+            </if>
+            <if test='null != oemCode'>
+                #{oemCode},
+            </if>
+            <if test='null != oemMobile'>
+                #{oemMobile},
+            </if>
+            <if test='null != oemAddr'>
+                #{oemAddr},
+            </if>
+            <if test='null != oemDesc'>
+                #{oemDesc},
+            </if>
+            <if test='null != oemStatus'>
+                #{oemStatus},
+            </if>
+            <if test='null != startDate'>
+                #{startDate},
+            </if>
+            <if test='null != endDate'>
+                #{endDate},
+            </if>
+            <if test='null != delStatus'>
+                #{delStatus},
+            </if>
+            <if test='null != gmtCreate'>
+                #{gmtCreate},
+            </if>
+            <if test='null != gmtModified'>
+                #{gmtModified}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="delete">
+        update t_oem_info
+        set del_status = '2'
+        where oem_id = #{oemId}
+    </update>
+
+    <update id="update" parameterType="com.base.app.po.sys.OemInfoPo">
+        UPDATE t_oem_info
+        <set>
+            <if test='null != oemId'>oem_id = #{oemId},</if>
+            <if test='null != oemName'>oem_name = #{oemName},</if>
+            <if test='null != oemCode'>oem_code = #{oemCode},</if>
+            <if test='null != oemMobile'>oem_mobile = #{oemMobile},</if>
+            <if test='null != oemAddr'>oem_addr = #{oemAddr},</if>
+            <if test='null != oemDesc'>oem_desc = #{oemDesc},</if>
+            <if test='null != startDate'>start_date = #{startDate},</if>
+            <if test='null != endDate'>end_date = #{endDate},</if>
+            <if test='null != oemStatus'>oem_status = #{oemStatus},</if>
+            <if test='null != delStatus'>del_status = #{delStatus},</if>
+            <if test='null != gmtCreate'>gmt_create = #{gmtCreate},</if>
+            <if test='null != gmtModified'>gmt_modified = #{gmtModified}</if>
+        </set>
+        WHERE oem_id = #{oemId}
+    </update>
+
+
+    <select id="queryById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_oem_info
+        WHERE oem_id = #{oemId}
+    </select>
+
+    <select id="selectOemCode" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_oem_info
+        WHERE oem_code = #{oemCode} and del_status = '1'
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_oem_info
+        <include refid="Where_Clause"/>
+        <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+    <select id="selectNoPage" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_oem_info
+        <include refid="Where_Clause"/>
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM t_oem_info
+        <include refid="Where_Clause"/>
+    </select>
+
+</mapper>

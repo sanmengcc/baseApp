@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.app.dao.sys.RoleDAO">
+
+    <resultMap id="BaseResultMap" type="com.base.app.po.sys.RolePo">
+        <result column="role_id" property="roleId" />
+        <result column="role_code" property="roleCode" />
+        <result column="role_name" property="roleName" />
+        <result column="role_type" property="roleType" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        role_id,
+                role_code,
+                role_name,
+                role_type,
+                gmt_create,
+                gmt_modified
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+            <if test="extra.roleName != null and extra.roleName != ''">
+                AND role_name like concat('%',#{extra.roleName},'%')
+            </if>
+        </where>
+    </sql>
+
+    <insert id="add" useGeneratedKeys="true" keyColumn="role_id" keyProperty="roleId" parameterType="com.base.app.po.sys.RolePo">
+        INSERT INTO t_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test ='null != roleId'>
+                role_id,
+            </if>
+            <if test ='null != roleCode'>
+                role_code,
+            </if>
+            <if test ='null != roleName'>
+                role_name,
+            </if>
+            <if test ='null != roleType'>
+                role_type,
+            </if>
+            <if test ='null != gmtCreate'>
+                gmt_create,
+            </if>
+            <if test ='null != gmtModified'>
+                gmt_modified
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test ='null != roleId'>
+                #{roleId},
+            </if>
+            <if test ='null != roleCode'>
+                #{roleCode},
+            </if>
+            <if test ='null != roleName'>
+                #{roleName},
+            </if>
+            <if test ='null != roleType'>
+                #{roleType},
+            </if>
+            <if test ='null != gmtCreate'>
+                #{gmtCreate},
+            </if>
+            <if test ='null != gmtModified'>
+                #{gmtModified}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM t_role
+        WHERE role_id = #{roleId}
+    </delete>
+
+    <update id="update" parameterType="com.base.app.po.sys.RolePo">
+        UPDATE t_role
+        <set>
+            <if test ='null != roleId'>role_id = #{roleId},</if>
+            <if test ='null != roleCode'>role_code = #{roleCode},</if>
+            <if test ='null != roleName'>role_name = #{roleName},</if>
+            <if test ='null != roleType'>role_type = #{roleType},</if>
+            <if test ='null != gmtCreate'>gmt_create = #{gmtCreate},</if>
+            <if test ='null != gmtModified'>gmt_modified = #{gmtModified}</if>
+        </set>
+        WHERE role_id = #{roleId}
+    </update>
+
+
+    <select id="queryById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_role
+        WHERE role_id = #{roleId}
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_role
+        <include refid="Where_Clause" />
+        <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+    <select id="selectNoPage" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_role
+        order by gmt_create desc
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM t_role
+        <include refid="Where_Clause" />
+    </select>
+</mapper>
