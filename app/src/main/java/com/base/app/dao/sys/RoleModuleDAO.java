@@ -28,4 +28,10 @@ public interface RoleModuleDAO extends BaseDAO<RoleModulePo> {
      * @return
      */
     List<String> selectStaffHasModule(String staffId);
+
+    /**
+     * 根据菜单ID删除
+     * @param moduleId
+     */
+    void deleteByModuleId(String moduleId);
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <!-- 头部搜索栏   -->
-    <div class="filter-container" ref="header" style="min-width: 1000px; width: 100%;">
+    <div class="filter-container" ref="header" style="width: 100%;">
       <el-form ref="form" :inline="true" label-width="80px">
         <el-input
             v-model="queryParams.keyword"
@@ -41,6 +41,7 @@
     >
       <el-table-column
           prop="mapper"
+          min-width="300px"
           label="SQLID"
       />
       <el-table-column
@@ -68,8 +69,6 @@
     <!-- 详情页   -->
     <Views
         ref="view"
-        :visible="dialog.viewTab"
-        :title="dialog.title"
         @close="close"
     />
   </div>
@@ -145,13 +144,11 @@ export default {
     // 详情操作tab
     viewTab(row) {
       const param = { logId: row.logId }
-      this.$refs.view.setModule(param)
-      this.dialog.title = '详情'
-      this.dialog.viewTab = true
+      this.$refs.view.view(param)
     },
     // 窗口关闭回调
-    close(tab) {
-      this.dialog[tab] = false
+    close() {
+      this.fetch()
     },
     // 分页查询
     fetch(params = {}) {

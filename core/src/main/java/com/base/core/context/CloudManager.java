@@ -12,6 +12,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class CloudManager {
 
+    public static Boolean oemSaas = Boolean.FALSE;
+
     private static CloudManager instance = new CloudManager();
     private static final String USERINFO = "USERINFO";
 

@@ -125,4 +125,9 @@ public class RoleServiceImpl implements RoleService {
         return this.roleModuleDAO.selectStaffHasModule(staffId);
     }
 
+    @Override
+    public void removeByModule(String moduleId) {
+        this.roleModuleDAO.deleteByModuleId(moduleId);
+    }
+
 }

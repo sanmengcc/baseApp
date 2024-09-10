@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <!-- 头部搜索栏   -->
-    <div class="filter-container" ref="header" style="min-width: 1000px; width: 100%;">
+    <div class="filter-container" ref="header" style="width: 100%;">
       <el-form ref="form" :inline="true" label-width="80px">
         <el-input
             v-model="queryParams.keyword"

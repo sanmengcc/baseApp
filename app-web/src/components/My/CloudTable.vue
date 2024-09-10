@@ -3,13 +3,16 @@
   <div ref="cloudTbBox">
     <el-table
       ref="cloudTb"
+      class="cloud-table"
       :load='tbTreeLoad'
       :lazy="pageOptions.lazy || false"
       :row-key="pageOptions.rowKey"
       :tree-props="pageOptions.tree_props"
       :data="page.dataList"
       :height="screenHeight"
-      :header-cell-style="{background:'#eef1f6',color:'#606266'}"
+      :row-style="{height:'50px'}"
+      :cell-style="{padding:'0px'}"
+      :header-cell-style="{background:'#eef1f6',color:'#606266',padding:'0px',height:'50px'}"
       style="width:100%;"
       @selection-change='selectChange'
     >
@@ -117,6 +120,7 @@ export default {
 ::-webkit-scrollbar-track {
   border-radius: 1px;
 }
+
 .el-table__fixed-right-patch{
   width: 0px !important;
 }

@@ -1,6 +1,5 @@
 package com.base.app.service;
 
-import com.base.app.dto.module.SystemModuleDTO;
 import com.base.app.dto.role.RoleDTO;
 import com.base.app.ro.role.AddRo;
 import com.base.app.ro.role.EditRo;
@@ -83,4 +82,11 @@ public interface RoleService {
      * @return
      */
     List<String> selectStaffHasModule(String staffId);
+
+    /**
+     * 删除菜单权限
+     * @param moduleId
+     */
+    void removeByModule(String moduleId);
+
 }

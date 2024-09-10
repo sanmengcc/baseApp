@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <!-- 头部搜索栏   -->
-    <div class="filter-container" ref="header" style="min-width: 1000px; width: 100%;">
+    <div class="filter-container" ref="header" style="width: 100%;">
       <el-form ref="form" :inline="true" label-width="80px">
         <el-input
             v-model="queryParams.keyword"
@@ -25,6 +25,7 @@
     >
       <el-table-column
           prop="fileName"
+          min-width="200px"
           label="文件名称"
       />
       <el-table-column
@@ -45,16 +46,26 @@
       <el-table-column
           prop="fileMd5"
           label="文件MD5"
-      />
-      <el-table-column
-          prop="fileUrl"
-          label="文件URL"
+          min-width="200px"
       />
       <el-table-column
           prop="gmtCreate"
           label="上传时间"
+          min-width="150px"
           sortable
       />
+      <el-table-column
+        prop="fileUrl"
+        width="100px"
+        align="left"
+        label="文件URL"
+      >
+        <template v-slot="{row}">
+          <a style="color: #87d068;" type="primary" plain @click="copy(row.fileUrl)">
+            复制地址
+          </a>
+        </template>
+      </el-table-column>
     </CloudTb>
   </div>
 </template>
@@ -101,11 +112,24 @@ export default {
     this.fetch(this.queryParams)
   },
   methods: {
-    // 窗口关闭回调
-    close(tab) {
-      console.log('close', tab)
-      this.dialog[tab] = false
-      this.refreshRow()
+    copy(fileurl) {
+      let input = document.createElement("input");
+      document.body.appendChild(input);
+      input.value = fileurl;
+      input.focus();
+      input.select();
+      try {
+        let result = document.execCommand("copy");
+        document.body.removeChild(input);
+        if (!result) {
+          console.error("复制失败");
+        } else {
+          this.$message.success("复制成功");
+        }
+      } catch (e) {
+        document.body.removeChild(input);
+        alert("当前浏览器不支持复制功能，请检查更新或更换其他浏览器操作");
+      }
     },
     // 分页查询
     fetch(params = {}) {

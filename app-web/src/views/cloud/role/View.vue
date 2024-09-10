@@ -1,60 +1,77 @@
 <template>
-  <el-dialog
-    :title="$t('common.view')"
+  <CloudDialog
     :width="width"
+    :title="title"
+    id="CloudDialog"
+    :formLoading="loading"
     top="100px"
-    :visible.sync="viewTab"
-    class="user-view"
+    :view="readonly"
+    :close-on-click-modal="true"
+    :close-on-press-escape="false"
+    style="height: 90vh;overflow: auto;margin: 5vh auto"
+    :visible="visible"
+    @close="close"
+    @submitForm="submitForm"
   >
-    <!--  表单部分  -->
-    <el-form ref="form" :model="module" label-position="right" label-width="100px" :disabled="true">
-      <el-form-item label="角色名称">
-        <el-input v-model="module.roleName"/>
+    <template v-slot:contentarea>
+      <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right"
+               label-width="100px">
+      <el-form-item label="角色名称" prop="roleName">
+        <el-input v-model="module.roleName" placeholder="请输入角色名称" show-word-limit maxlength="20"/>
       </el-form-item>
-      <el-form-item label="角色编码">
-        <el-input v-model="module.roleCode"/>
+      <el-form-item label="角色编码" prop="roleCode">
+        <el-input v-model="module.roleCode" placeholder="请输入角色编码" show-word-limit maxlength="20"/>
       </el-form-item>
-      <el-form-item label="角色类型" >
-        <el-input v-model="module.roleTypeLabel"/>
+      <el-form-item label="角色类型" prop="roleType">
+        <el-select v-model="module.roleType" value="" placeholder="请选择角色类型">
+          <el-option
+            v-for="item in form.dict.ROLE_TYPE"
+            :key="item.dictKey"
+            :label="item.dictValue"
+            :value="String(item.dictKey)"
+          />
+        </el-select>
       </el-form-item>
-    </el-form>
-    <!--  按钮部分  -->
-    <div slot="footer" class="dialog-footer">
-      <el-button type="warning" @click="viewTab = false">
-        {{ $t('common.cancel') }}
-      </el-button>
-    </div>
-  </el-dialog>
+      </el-form>
+    </template>
+  </CloudDialog>
 </template>
 <script>
-
+import CloudDialog from "@/components/My/CloudDialog"
 export default {
   name: 'Views',
-  props: {
-    // 窗口控制
-    visible: {
-      type: Boolean,
-      default: false
-    }
-  },
+  components:{CloudDialog},
   data() {
     return {
+      title: '',
+      visible: false,
+      loading: false,
+      readonly: false,
       screenWidth: 0,
       width: this.pageApi.initTabWidth(),
-      module: {}
-    }
-  },
-  computed: {
-    viewTab: {
-      get() {
-        return this.visible
+      form: {
+        dict: {}
       },
-      set() {
-        this.close()
+      module: {
+        roleName: '',
+        roleCode: '',
+        roleType: ''
+      },
+      rules: {
+        roleName: [
+          { required: true, message: '角色名称不能为空', trigger: 'blur' },
+          { min: 1, max: 20, message: '角色名称不能超过20个字符', trigger: 'blur' }
+        ],
+        roleCode: [
+          { required: true, message: '角色编码不能为空', trigger: 'blur' },
+          { min: 1, max: 20, message: '角色编码不能超过20个字符', trigger: 'blur' }
+        ],
+        roleType: { required: true, message: '角色类型不能为空', trigger: 'change' }
       }
     }
   },
   mounted() {
+    this.$api.cloud.sys.getDictMap('ROLE_TYPE').then(res => { this.form.dict = res.data })
     window.onresize = () => {
       return (() => {
         this.width = this.pageApi.initTabWidth()
@@ -62,51 +79,89 @@ export default {
     }
   },
   methods: {
-    // 初始化设置form表单数据
-    setModule(param) {
-      this.module = { ...param }
-      this.init()
+    add() {
+      this.readonly = false
+      this.title = '新增角色'
+      this.visible = true
+    },
+    edit(param) {
+      this.readonly = false
+      this.title = '编辑角色'
+      this.visible = true
+      this.module.roleId = param.roleId
+      this.getInfo()
+    },
+    view(param) {
+      // 设置表单只读
+      this.readonly = true
+      // 设置dialog标题
+      this.title = '查看角色'
+      // 打开弹窗
+      this.visible = true
+      // 设置参数
+      this.module.roleId = param.roleId
+      this.getInfo()
     },
     // 初始化详情
-    init() {
+    getInfo() {
       const params = {
         roleId: this.module.roleId
       }
+      this.loading = true
       this.$api.cloud.role.info(params).then(res => {
         this.module = res.data
+        this.loading = false
+      }).catch(e=>{
+        this.loading = false
+      })
+    },
+    // 提交表单
+    submitForm() {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          if (this.module.roleId) {
+            this.editData()
+          } else {
+            this.addData()
+          }
+        } else {
+          return false
+        }
+      })
+    },
+    editData() {
+      this.loading = true
+      this.$api.cloud.role.edit(this.module).then((res) => {
+        this.$message({
+          message: '操作成功',
+          type: 'success'
+        })
+        this.loading = false
+        this.close()
+      }).catch((e) => {
+        this.loading = false
+      })
+    },
+    addData() {
+      this.loading = true
+      this.$api.cloud.role.add(this.module).then((res) => {
+        this.loading = false
+        this.$message({
+          message: '操作成功',
+          type: 'success'
+        })
+        this.close()
+      }).catch((e) => {
+        this.loading = false
       })
     },
     // 关闭窗口并且透传
     close() {
-      this.$emit('close', 'viewTab')
+      this.module.roleId = ''
+      this.resetForm("form");
+      this.visible = false;
+      this.$emit('close')
     }
   }
 }
 </script>
-<style lang="scss" scoped>
-  .user-view {
-    .img-wrapper {
-      text-align: center;
-      margin-top: -1.5rem;
-      margin-bottom: 10px;
-      img {
-        width: 4rem;
-        border-radius: 50%;
-      }
-    }
-    .view-item {
-      margin: 7px;
-      i {
-        font-size: .97rem;
-      }
-      span {
-        margin-left: 5px;
-      }
-    }
-  }
-  .menu-icon {
-    width: 78px;
-    height: 78px;
-    display: block;
-  }
-</style>

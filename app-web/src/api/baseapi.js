@@ -10,7 +10,7 @@ import axios from 'axios'
  */
 export function getDict(dictTypes) {
   return request({
-    url: '/gateway/api/dict/getDicMap?dictTypes=' + dictTypes,
+    url: '/base-app/api/dict/getDicMap?dictTypes=' + dictTypes,
     method: 'get'
   })
 }
@@ -30,7 +30,7 @@ export function getUploadSignature(fileName, bucketPrivate, keepOrigName, md5, f
     'md5': md5,
     fileSize: fileSize
   }
-  return post('/gateway/api/common/oss/getUploadSignature', params, true)
+  return post('/base-app/api/common/oss/getUploadSignature', params, true)
 }
 
 /**
@@ -39,7 +39,7 @@ export function getUploadSignature(fileName, bucketPrivate, keepOrigName, md5, f
  * @returns {Promise<unknown>}
  */
 export function callbackFile(dataJson) {
-  return post('/gateway/api/common/oss/callbackFile', dataJson, true)
+  return post('/base-app/api/common/oss/callbackFile', dataJson, true)
 }
 
 /**

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <!-- 头部搜索栏   -->
-    <div class="filter-container" ref="header" style="min-width: 1000px; width: 100%;">
+    <div class="filter-container" ref="header" style="width: 100%;">
       <el-form ref="form" :inline="true" label-width="80px">
         <el-input
             v-model="queryParams.keyword"
@@ -40,7 +40,6 @@
       <el-table-column
           prop="avatarUrl"
           label="员工头像"
-          sortable
       >
         <template v-slot="{row}">
           <el-avatar :size="50" :src="row.avatarUrl" v-if="row.avatarUrl"/>
@@ -64,6 +63,7 @@
       />
       <el-table-column
           prop="entryDate"
+          min-width="100px"
           label="入职日期"
       />
       <el-table-column
@@ -73,6 +73,7 @@
       <el-table-column
           prop="status"
           label="工作状态"
+          min-width="100px"
           sortable
       >
         <template v-slot="{row}">
@@ -86,6 +87,7 @@
       </el-table-column>
       <el-table-column
           prop="lastLoginTime"
+          min-width="150px"
           label="上次登陆时间"
       />
       <el-table-column
@@ -113,48 +115,18 @@
         </template>
       </el-table-column>
     </CloudTb>
-    <!-- 新增页   -->
-    <add
-        ref="add"
-        :visible="dialog.addTab"
-        :title="dialog.title"
-        @success="search"
-        @close="close"
-    />
-    <!-- 编辑页   -->
-    <edit
-        ref="edit"
-        :visible="dialog.editTab"
-        :title="dialog.title"
-        @success="search"
-        @close="close"
-    />
-    <!-- 详情页   -->
-    <Views
-        ref="view"
-        :visible="dialog.viewTab"
-        :title="dialog.title"
-        @close="close"
-    />
 
     <!-- 详情页   -->
-    <Role
-        ref="role"
-        :visible="dialog.roleTab"
-        :title="dialog.title"
-        @close="close"
-    />
+    <Views ref="view" @close="close"/>
 
+    <!-- 详情页   -->
+    <Role ref="role" @close="close"/>
   </div>
 </template>
 
 <script>
 // 分页组件
 import CloudTb from '@/components/My/CloudTable'
-// 新增页面
-import Add from './Add'
-// 修改页面
-import Edit from './Edit'
 // 详情页面
 import Views from './View'
 
@@ -163,7 +135,7 @@ import md5 from "js-md5";
 export default {
   name: 'StaffIndex',
   // 定义组件
-  components: {Add, Edit, Views,Role, CloudTb},
+  components: {Views,Role, CloudTb},
   data() {
     return {
       dict:{
@@ -237,31 +209,24 @@ export default {
     // 详情操作tab
     viewTab(row) {
       const param = {staffId: row.staffId}
-      this.$refs.view.setModule(param)
-      this.dialog.title = '详情'
-      this.dialog.viewTab = true
+      this.$refs.view.view(param)
     },
     // 编辑操作tab
     editTab(row) {
       const param = {staffId: row.staffId}
-      this.$refs.edit.setModule(param)
-      this.dialog.title = '修改'
-      this.dialog.editTab = true
+      this.$refs.view.edit(param)
     },
     // tab操作
     addTab() {
-      this.dialog.title = '新增'
-      this.dialog.addTab = true
+      this.$refs.view.add()
     },
     // 窗口关闭回调
-    close(tab) {
-      this.dialog[tab] = false
+    close() {
+      this.fetch()
     },
     allotRole(row){
       const param = {staffId: row.staffId}
-      this.$refs.role.setModule(param)
-      this.dialog.title = '分配角色'
-      this.dialog.roleTab = true
+      this.$refs.role.add(param)
     },
     changePassword(row){
       this.$prompt('请输入新密码', '提示', {

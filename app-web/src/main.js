@@ -27,6 +27,7 @@ import * as filters from './filters' // global filters
 import i18n from './lang'
 
 import {hasPermission, hasNoPermission, hasAnyPermission, getPermissionCode,showPermission} from './utils/permissionDirect'
+import { resetForm } from "@/utils/core";
 
 /**
  * If you don't want to use mock-server
@@ -43,6 +44,7 @@ const Plugins = [
 ]
 Vue.prototype.getPermissionCode = getPermissionCode
 Vue.prototype.showPermission = showPermission
+Vue.prototype.resetForm = resetForm
 
 Plugins.map((plugin) => {
   Vue.use(plugin)
@@ -53,10 +55,11 @@ if (process.env.NODE_ENV === 'production') {
   mockXHR()
 }
 
-Vue.use(Element, {
-  size: Cookies.get('size') || 'medium', // set element-ui default size
-  locale: enLang // 如果使用中文，无需设置，请删除
-})
+Vue.use(Element, { size: 'small', zIndex: 3000 })
+// Vue.use(Element, {
+//   size: Cookies.get('size') || 'medium', // set element-ui default size
+//   locale: enLang // 如果使用中文，无需设置，请删除
+// })
 
 Vue.use(Element, {
   i18n: (key, value) => i18n.t(key, value)

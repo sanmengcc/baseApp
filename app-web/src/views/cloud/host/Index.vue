@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <!-- 头部搜索栏   -->
-    <div class="filter-container" ref="header" style="min-width: 1000px; width: 100%;">
+    <div class="filter-container" ref="header" style="width: 100%;">
       <el-form ref="form" :inline="true" label-width="80px">
         <el-input
             v-model="queryParams.host"
@@ -46,6 +46,7 @@
       <el-table-column
           prop="gmtCreate"
           label="创建时间"
+          min-width="150px"
           sortable
       />
       <el-table-column
@@ -73,46 +74,21 @@
         </template>
       </el-table-column>
     </CloudTb>
-    <!-- 新增页   -->
-    <add
-        ref="add"
-        :visible="dialog.addTab"
-        :title="dialog.title"
-        @success="search"
-        @close="close"
-    />
-    <!-- 编辑页   -->
-    <edit
-        ref="edit"
-        :visible="dialog.editTab"
-        :title="dialog.title"
-        @success="search"
-        @close="close"
-    />
-    <!-- 详情页   -->
-    <Views
-        ref="view"
-        :visible="dialog.viewTab"
-        :title="dialog.title"
-        @close="close"
-    />
+
+    <Views ref="view" @close="close"/>
   </div>
 </template>
 
 <script>
 // 分页组件
 import CloudTb from '@/components/My/CloudTable'
-// 新增页面
-import Add from './Add'
-// 修改页面
-import Edit from './Edit'
 // 详情页面
 import Views from './View'
 
 export default {
-  name: 'RoleIndex',
+  name: 'HostIndex',
   // 定义组件
-  components: {Add, Edit, Views, CloudTb},
+  components: {Views, CloudTb},
   data() {
     return {
       // 冗余参数
@@ -169,26 +145,20 @@ export default {
     // 详情操作tab
     viewTab(row) {
       const param = {configId: row.configId}
-      this.$refs.view.setModule(param)
-      this.dialog.title = '详情'
-      this.dialog.viewTab = true
+      this.$refs.view.view(param)
     },
     // 编辑操作tab
     editTab(row) {
       const param = {configId: row.configId}
-      this.$refs.edit.setModule(param)
-      this.dialog.title = '修改'
-      this.dialog.editTab = true
+      this.$refs.view.edit(param)
     },
     // tab操作
     addTab() {
-      this.dialog.title = '新增'
-      this.dialog.addTab = true
+      this.$refs.view.add()
     },
     // 窗口关闭回调
-    close(tab) {
-      console.log('close', tab)
-      this.dialog[tab] = false
+    close() {
+      this.fetch()
     },
     // 删除数据
     delete(row) {

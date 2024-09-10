@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
     <!-- 头部搜索栏   -->
-    <div class="filter-container" ref="header" style="min-width: 1000px; width: 100%;">
+    <div class="filter-container" ref="header" style="width: 100%;">
       <el-form ref="form" :inline="true" label-width="80px">
         <el-input
-            v-model="queryParams.keyword"
-            placeholder="请输入域名"
-            class="filter-item search-item"
+          v-model="queryParams.keyword"
+          placeholder="请输入域名"
+          class="filter-item search-item"
         />
         <el-button class="filter-item" type="primary" plain @click="search">
           {{ $t('table.search') }}
@@ -21,50 +21,52 @@
     </div>
     <!-- 分页组件   -->
     <CloudTb
-        ref="cloudTb"
-        :page="pageData"
-        v-loading="loading"
-        :pageOptions="pageOptions"
-        @pagination="pagination"
+      ref="cloudTb"
+      :page="pageData"
+      v-loading="loading"
+      :pageOptions="pageOptions"
+      @pagination="pagination"
     >
       <el-table-column
-          prop="oemId"
-          label="租户ID"
+        prop="oemId"
+        label="租户ID"
       />
       <el-table-column
-          prop="oemName"
-          label="租户名称"
+        prop="oemName"
+        label="租户名称"
       />
       <el-table-column
-          prop="oemCode"
-          label="租户编码"
+        prop="oemCode"
+        label="租户编码"
       />
       <el-table-column
-          prop="oemMobile"
-          label="联系电话"
+        prop="oemMobile"
+        label="联系电话"
       />
       <el-table-column
-          prop="oemStatusLabel"
-          label="启用/禁用"
+        prop="oemStatusLabel"
+        label="启用/禁用"
       />
       <el-table-column
-          label="授权日期"
+        min-width="180px"
+        label="授权日期"
       >
         <template v-slot="{row}">
           {{ row.startDate }} ~ {{ row.endDate }}
         </template>
       </el-table-column>
       <el-table-column
-          prop="gmtCreate"
-          label="创建时间"
-          sortable
+        prop="gmtCreate"
+        min-width="150px"
+        label="创建时间"
+        sortable
       />
       <el-table-column
-          :label="$t('table.operation')"
-          align="center"
-          min-width="150px"
-          fixed="right"
-          class-name="small-padding fixed-width"
+        :label="$t('table.operation')"
+        align="center"
+        min-width="150px"
+        fixed="right"
+        class-name="small-padding fixed-width"
       >
         <template v-slot="scope">
           <i class="el-icon-view table-operation" @click="viewTab(scope.row)"
@@ -73,11 +75,11 @@
             <span class="el-dropdown-link">{{ $t('table.operation') }}<i class="el-icon-arrow-down el-icon--right"></i></span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
-                  v-for="(item, index) in operateOptions"
-                  :key="index"
-                  :icon="item.icon"
-                  v-has-permission="[(item.permission)]"
-                  :command="handleCommand(scope.row, item.value, item.param)"
+                v-for="(item, index) in operateOptions"
+                :key="index"
+                :icon="item.icon"
+                v-has-permission="[(item.permission)]"
+                :command="handleCommand(scope.row, item.value, item.param)"
               >{{ $t(item.label) }}
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -85,46 +87,21 @@
         </template>
       </el-table-column>
     </CloudTb>
-    <!-- 新增页   -->
-    <add
-        ref="add"
-        :visible="dialog.addTab"
-        :title="dialog.title"
-        @success="search"
-        @close="close"
-    />
-    <!-- 编辑页   -->
-    <edit
-        ref="edit"
-        :visible="dialog.editTab"
-        :title="dialog.title"
-        @success="search"
-        @close="close"
-    />
     <!-- 详情页   -->
-    <Views
-        ref="view"
-        :visible="dialog.viewTab"
-        :title="dialog.title"
-        @close="close"
-    />
+    <Views ref="view" @close="close"/>
   </div>
 </template>
 
 <script>
 // 分页组件
 import CloudTb from '@/components/My/CloudTable'
-// 新增页面
-import Add from './Add'
-// 修改页面
-import Edit from './Edit'
 // 详情页面
 import Views from './View'
 
 export default {
-  name: 'RoleIndex',
+  name: 'OemIndex',
   // 定义组件
-  components: {Add, Edit, Views, CloudTb},
+  components: {Views, CloudTb},
   data() {
     return {
       // 冗余参数
@@ -144,14 +121,6 @@ export default {
       // 分页配置
       pageOptions: {
         rowKey: 'configId'
-      },
-      // 子页面的显示控制参数
-      dialog: {
-        isVisible: false,
-        addTab: false,
-        viewTab: false,
-        editTab: false,
-        title: ''
       },
       // loading参数
       loading: false,
@@ -181,26 +150,20 @@ export default {
     // 详情操作tab
     viewTab(row) {
       const param = {oemId: row.oemId}
-      this.$refs.view.setModule(param)
-      this.dialog.title = '详情'
-      this.dialog.viewTab = true
+      this.$refs.view.view(param)
     },
     // 编辑操作tab
     editTab(row) {
       const param = {oemId: row.oemId}
-      this.$refs.edit.setModule(param)
-      this.dialog.title = '修改'
-      this.dialog.editTab = true
+      this.$refs.view.edit(param)
     },
     // tab操作
     addTab() {
-      this.dialog.title = '新增'
-      this.dialog.addTab = true
+      this.$refs.view.add()
     },
     // 窗口关闭回调
-    close(tab) {
-      console.log('close', tab)
-      this.dialog[tab] = false
+    close() {
+      this.fetch()
     },
     // 删除数据
     delete(row) {

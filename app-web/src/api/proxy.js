@@ -11,14 +11,14 @@ const domain = function(param) {
 }
 
 module.exports = {
-  '/gateway': {
+  '/base-app': {
     target: domain({
       dev: 'http://127.0.0.1:9600',
       test: 'http://124.70.77.178:81',
       prod: 'http://gateway.popccc.cc:81'
     }),
-    pathRewrite: {
-      "^/gateway": "/",//重写地址
-    },
+    // pathRewrite: {
+    //   "^/gateway": "/",//重写地址
+    // },
   }
 }

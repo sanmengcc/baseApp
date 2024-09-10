@@ -46,6 +46,12 @@
         where role_id = #{roleId}
     </delete>
 
+    <delete id="deleteByModuleId">
+        delete
+        from t_role_module
+        where module_id = #{moduleId}
+    </delete>
+
     <select id="selectRoleHasModuleId" resultType="java.lang.String">
         select module_id
         from t_role_module

@@ -1,21 +1,28 @@
 <template>
-  <el-dialog
-      :title="title"
-      :width="width"
-      top="100px"
-      v-loading="loading"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :visible.sync="menuTab"
+  <CloudDialog
+    :width="width"
+    :title="title"
+    id="CloudDialog"
+    :formLoading="loading"
+    top="100px"
+    :view="readonly"
+    :close-on-click-modal="true"
+    :close-on-press-escape="false"
+    style="height: 90vh;overflow: auto;margin: 5vh auto"
+    :visible="visible"
+    @close="close"
+    @submitForm="submitForm"
   >
-    <!--  表单部分  -->
-    <el-form ref="form" :model="module" label-position="right" label-width="100px">
-      <el-input
+    <template v-slot:contentarea>
+      <el-form ref="form" id="el-form" v-loading="loading" :disabled="readonly" :model="module" label-position="right"
+               label-width="100px">
+        <el-input
+          style="top:20px"
           placeholder="输入关键字进行过滤"
           v-model="filterText">
-      </el-input>
-
-      <el-tree
+        </el-input>
+        <el-tree
+          style="top:20px"
           class="filter-tree"
           :data="form.data"
           :props="defaultProps"
@@ -25,41 +32,29 @@
           :default-checked-keys="form.moduleIdList"
           :filter-node-method="filterNode"
           ref="tree">
-      </el-tree>
-    </el-form>
-    <!--  按钮部分  -->
-    <div slot="footer" class="dialog-footer">
-      <el-button type="warning" plain :loading="buttonLoading" @click="menuTab = false">
-        {{ $t('common.cancel') }}
-      </el-button>
-      <el-button type="primary" plain :loading="buttonLoading" @click="submitForm">
-        {{ $t('common.confirm') }}
-      </el-button>
-    </div>
-  </el-dialog>
+        </el-tree>
+      </el-form>
+    </template>
+  </CloudDialog>
 </template>
 <script>
+import CloudDialog from "@/components/My/CloudDialog"
+
 export default {
   name: 'Menu',
+  components: {CloudDialog},
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val);
     }
   },
-  props: {
-    // 窗口控制
-    visible: {
-      type: Boolean,
-      default: false
-    },
-    // 窗口标题
-    title: {
-      type: String,
-      default: ''
-    }
-  },
   data() {
     return {
+      title: '',
+      visible: false,
+      loading: false,
+      readonly: false,
+      screenWidth: 0,
       filterText: '',
       defaultProps: {
         children: 'children',
@@ -70,26 +65,10 @@ export default {
       module: {},
       // 表单参数
       form: {
-        data:[],
+        data: [],
         moduleIdList: []
       },
-      // 按钮loading
-      buttonLoading: false,
-      // 页面大小控制
-      screenWidth: 0,
       width: this.pageApi.initTabWidth(),
-      loading: false
-    }
-  },
-  computed: {
-    menuTab: {
-      get() {
-        return this.visible
-      },
-      set() {
-        this.close()
-        this.reset()
-      }
     }
   },
   mounted() {
@@ -105,36 +84,49 @@ export default {
       return data.name.indexOf(value) !== -1;
     },
     // 初始化设置form表单数据
-    setModule(param) {
+    edit(param) {
+      this.visible = true
       this.module.roleId = param.roleId
-      // 加载数据字典
       // 加载详情
-      this.init()
+      this.getInfo()
     },
     // 初始化详情
-    init() {
+    getInfo() {
       const params = {
         roleId: this.module.roleId
       }
-      this.$api.cloud.module.selectList().then(res => {
-        this.form.data = res.data
-      })
-
-      this.$api.cloud.role.selectRoleModule(params).then(res => {
-        this.form.moduleIdList = res.data
-      })
+      this.loading = true
+      const selectList = this.$api.cloud.module.selectList();
+      const selectRoleModule = this.$api.cloud.role.selectRoleModule(params);
+      Promise.all([selectList, selectRoleModule])
+        .then(results => {
+          if (results.length != 2) {
+            this.$message({
+              message: '数据加载失败',
+              type: 'error'
+            })
+            return
+          }
+          // 对两个接口返回的数据进行操作
+          this.form.data = results[0].data;
+          this.form.moduleIdList = results[1].data;
+          this.loading = false;
+        })
+        .catch(error => {
+          this.loading = false;
+        });
     },
     // 关闭窗口并且透传
     close() {
-      this.$emit('close', 'menuTab')
-      this.buttonLoading = false
+      this.$emit('close')
+      this.visible = false
       this.reset()
     },
     // 提交表单
     submitForm() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.buttonLoading = true
+          this.loading = true
 
           const moduleIdList = []
           let checkedNodes = this.$refs.tree.getCheckedNodes();
@@ -147,8 +139,7 @@ export default {
           const params = {'moduleIdList': moduleIdList, 'roleId': this.module.roleId}
 
           this.$api.cloud.role.authModule(params).then((res) => {
-            this.buttonLoading = false
-            this.isVisible = false
+            this.loading = false
             this.$message({
               message: '授权成功',
               type: 'success'
@@ -156,7 +147,7 @@ export default {
             this.$emit('success')
             this.close()
           }).catch((e) => {
-            this.buttonLoading = false
+            this.loading = false
           })
         } else {
           return false
@@ -174,39 +165,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.el-uploader {
-  border: 1px dashed #d9d9d9 !important;
-  border-radius: 6px;
-  width: 78px;
-  overflow: hidden;
-}
-
-.icon-uploader {
-  border: 1px dashed #d9d9d9 !important;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 78px;
-  position: relative;
-  overflow: hidden;
-}
-
-.avatar-uploader .el-upload:hover {
-  border-color: #409EFF;
-}
-
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 78px;
-  height: 78px;
-  line-height: 78px;
-  text-align: center;
-}
-
-.menu-icon {
-  width: 78px;
-  height: 78px;
-  display: block;
-}
-</style>

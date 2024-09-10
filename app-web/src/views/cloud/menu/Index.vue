@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <!-- 头部搜索栏   -->
-    <div class="filter-container" ref="header" style="min-width: 1000px; width: 100%;">
-      <el-form ref="form" :inline="true" label-width="80px">
+    <div class="filter-container" ref="header" style="width: 100%;">
+      <el-form ref="form" size="small" :inline="true" label-width="80px">
         <el-input
           v-model="queryParams.keyword"
           placeholder="请输入关键字"
@@ -31,25 +31,30 @@
     >
       <el-table-column
         prop="name"
+        min-width="100px"
         label="菜单名称"
       >
       </el-table-column>
       <el-table-column
+        min-width="100px"
         prop="jumpAction"
         label="菜单路径"
       >
       </el-table-column>
       <el-table-column
+        min-width="100px"
         prop="typeLabel"
         label="功能类型"
       >
       </el-table-column>
       <el-table-column
+        min-width="100px"
         prop="seq"
         label="排序"
       >
       </el-table-column>
       <el-table-column
+        min-width="100px"
         label="显示/隐藏"
       >
         <template v-slot="{row}">
@@ -77,6 +82,7 @@
       </el-table-column>
       <el-table-column
         prop="gmtCreate"
+        min-width="150px"
         label="创建时间"
         sortable
       >
@@ -106,48 +112,21 @@
         </template>
       </el-table-column>
     </CloudTb>
-    <!-- 新增页   -->
-    <add
-      ref="add"
-      :visible="dialog.addTab"
-      :title="dialog.title"
-      @success="search"
-      @close="close"
-    />
-    <!-- 编辑页   -->
-    <edit
-      ref="edit"
-      :visible="dialog.editTab"
-      :title="dialog.title"
-      @success="search"
-      @close="close"
-    />
     <!-- 详情页   -->
-    <Views
-      ref="view"
-      :visible="dialog.viewTab"
-      :title="dialog.title"
-      @close="close"
-    />
-
+    <Views ref="view" @close="close"/>
   </div>
 </template>
 
 <script>
 // 分页组件
 import CloudTb from '@/components/My/CloudTable'
-// 新增页面
-import Add from './Add'
-// 修改页面
-import Edit from './Edit'
 // 详情页面
 import Views from './View'
-import {showPermission} from "@/utils/permissionDirect";
 
 export default {
   name: 'ModuleIndex',
   // 定义组件
-  components: { Add, Edit, Views, CloudTb },
+  components: { Views, CloudTb },
   data() {
     return {
       // 冗余参数
@@ -169,14 +148,6 @@ export default {
         rowKey: 'moduleId',
         tree_props: { children: 'children', hasChildren: 'hasChildren' },
         lazy: true
-      },
-      // 子页面的显示控制参数
-      dialog: {
-        isVisible: false,
-        addTab: false,
-        viewTab: false,
-        editTab: false,
-        title: ''
       },
       // loading参数
       loading: false,
@@ -216,37 +187,28 @@ export default {
   },
   methods: {
     addChild(row) {
-      this.dialog.title = '新增'
-      this.dialog.addTab = true
       this.extra.parentId = row.moduleId
       const param = { parentId: row.moduleId, systemId: row.systemId }
-      this.$refs.add.setModule(param)
+      this.$refs.view.add(param)
     },
     // 详情操作tab
     viewTab(row) {
       const param = { moduleId: row.moduleId }
-      this.$refs.view.setModule(param)
-      this.dialog.title = '查看详情'
-      this.dialog.viewTab = true
+      this.$refs.view.view(param)
     },
     // 编辑操作tab
     editTab(row) {
       const param = { moduleId: row.moduleId }
       this.extra.parentId = row.parentId
-      this.$refs.edit.setModule(param)
-      this.dialog.title = '修改'
-      this.dialog.editTab = true
+      this.$refs.view.edit(param)
     },
     // tab操作
     addTab() {
-      this.dialog.title = '新增系统'
-      this.dialog.addTab = true
       const param = { systemId: this.extra.systemId }
-      this.$refs.add.setModule(param)
+      this.$refs.view.add(param)
     },
     // 窗口关闭回调
-    close(tab) {
-      this.dialog[tab] = false
+    close() {
       this.refreshRow()
     },
     changeHidden(event, row) {

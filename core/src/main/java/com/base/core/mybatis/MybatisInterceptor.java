@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 
 import com.base.core.annotation.MybatisLog;
+import com.base.core.context.CloudManager;
 import com.base.core.entity.dto.SqlLogDTO;
 import com.base.core.service.LogService;
 import com.base.util.SpringBeanUtil;
@@ -51,25 +52,29 @@ public class MybatisInterceptor implements Interceptor {
         Configuration configuration = mappedStatement.getConfiguration();
         String sql = getSql(configuration, boundSql);
 
-        // INSERT SQL
-        if (SqlCommandType.INSERT.equals(mappedStatement.getSqlCommandType())) {;
-            Optional.ofNullable(MyBatisUtil.processInsert(mappedStatement.getBoundSql(parameter).getSql()))
-                    .ifPresent(newSQL -> resetSql2Invocation(invocation, newSQL));
-        }
-        // UPDATE SQL
-        if (SqlCommandType.UPDATE.equals(mappedStatement.getSqlCommandType())) {;
-            Optional.ofNullable(MyBatisUtil.processUpdate(mappedStatement.getBoundSql(parameter).getSql()))
-                    .ifPresent(newSQL -> resetSql2Invocation(invocation, newSQL));
-        }
-        // DELETE SQL
-        if (SqlCommandType.DELETE.equals(mappedStatement.getSqlCommandType())) {;
-            Optional.ofNullable(MyBatisUtil.processDelete(mappedStatement.getBoundSql(parameter).getSql()))
-                    .ifPresent(newSQL -> resetSql2Invocation(invocation, newSQL));
-        }
-        // SELECT SQL
-        if (SqlCommandType.SELECT.equals(mappedStatement.getSqlCommandType())) {;
-            Optional.ofNullable(MyBatisUtil.processSelect(mappedStatement.getBoundSql(parameter).getSql()))
-                    .ifPresent(newSQL -> resetSql2Invocation(invocation, newSQL));
+        Boolean oemSaas = CloudManager.oemSaas;
+        // 开启多租户
+        if (oemSaas) {
+            // INSERT SQL
+            if (SqlCommandType.INSERT.equals(mappedStatement.getSqlCommandType())) {;
+                Optional.ofNullable(MyBatisUtil.processInsert(mappedStatement.getBoundSql(parameter).getSql()))
+                        .ifPresent(newSQL -> resetSql2Invocation(invocation, newSQL));
+            }
+            // UPDATE SQL
+            if (SqlCommandType.UPDATE.equals(mappedStatement.getSqlCommandType())) {;
+                Optional.ofNullable(MyBatisUtil.processUpdate(mappedStatement.getBoundSql(parameter).getSql()))
+                        .ifPresent(newSQL -> resetSql2Invocation(invocation, newSQL));
+            }
+            // DELETE SQL
+            if (SqlCommandType.DELETE.equals(mappedStatement.getSqlCommandType())) {;
+                Optional.ofNullable(MyBatisUtil.processDelete(mappedStatement.getBoundSql(parameter).getSql()))
+                        .ifPresent(newSQL -> resetSql2Invocation(invocation, newSQL));
+            }
+            // SELECT SQL
+            if (SqlCommandType.SELECT.equals(mappedStatement.getSqlCommandType())) {;
+                Optional.ofNullable(MyBatisUtil.processSelect(mappedStatement.getBoundSql(parameter).getSql()))
+                        .ifPresent(newSQL -> resetSql2Invocation(invocation, newSQL));
+            }
         }
 
         Long startTime = System.currentTimeMillis();

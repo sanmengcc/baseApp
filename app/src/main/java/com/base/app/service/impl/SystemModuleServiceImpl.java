@@ -8,10 +8,12 @@ import com.base.app.ro.module.AddRo;
 import com.base.app.ro.module.ChangeRo;
 import com.base.app.ro.module.EditRo;
 import com.base.app.ro.module.SearchRo;
+import com.base.app.service.RoleService;
 import com.base.app.service.SystemModuleService;
 import com.base.core.constant.CommonConstants;
 import com.base.core.entity.Page;
 import com.base.core.entity.Paging;
+import com.base.core.exception.CloudException;
 import com.base.util.JsonUtils;
 import com.base.util.TreeUtils;
 import com.base.util.UUIDGenerator;
@@ -28,6 +30,8 @@ import java.util.Objects;
 public class SystemModuleServiceImpl implements SystemModuleService {
     @Resource
     private SystemModuleDAO systemModuleDAO;
+    @Resource
+    private RoleService roleService;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -95,6 +99,10 @@ public class SystemModuleServiceImpl implements SystemModuleService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(String moduleId) {
+        List<SystemModulePo> childs = this.systemModuleDAO.selectByParentId(moduleId);
+        if (ValidateHelper.isNotEmptyCollection(childs)) {
+            throw new CloudException("当前菜单还存在子菜单，请先删除子菜单!");
+        }
         SystemModulePo po = this.systemModuleDAO.queryById(moduleId);
         if (Objects.nonNull(po)) {
             this.systemModuleDAO.delete(moduleId);
@@ -102,6 +110,8 @@ public class SystemModuleServiceImpl implements SystemModuleService {
             if (ValidateHelper.isEmptyCollection(this.systemModuleDAO.selectByParentId(po.getParentId()))) {
                 this.systemModuleDAO.updateHasChild(po.getParentId(), CommonConstants.Flag.NO);
             }
+            // 处理角色权限
+            roleService.removeByModule(moduleId);
         }
     }
 

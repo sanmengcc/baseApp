@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <!-- 头部搜索栏   -->
-    <div class="filter-container" ref="header" style="min-width: 1000px; width: 100%;">
+    <div class="filter-container" ref="header" style="width: 100%;">
       <el-form ref="form" :inline="true" label-width="80px">
         <el-input
             v-model="queryParams.roleName"
@@ -73,57 +73,26 @@
         </template>
       </el-table-column>
     </CloudTb>
-    <!-- 新增页   -->
-    <add
-        ref="add"
-        :visible="dialog.addTab"
-        :title="dialog.title"
-        @success="search"
-        @close="close"
-    />
-    <!-- 编辑页   -->
-    <edit
-        ref="edit"
-        :visible="dialog.editTab"
-        :title="dialog.title"
-        @success="search"
-        @close="close"
-    />
     <!-- 详情页   -->
-    <Views
-        ref="view"
-        :visible="dialog.viewTab"
-        :title="dialog.title"
-        @close="close"
-    />
-
-    <Menu
-        ref="menu"
-        :visible="dialog.menuTab"
-        :title="dialog.title"
-        @close="close"
-    />
-
+    <Views ref="view" @close="close"/>
+    <Menu ref="menu" @close="close"/>
   </div>
 </template>
 
 <script>
 // 分页组件
 import CloudTb from '@/components/My/CloudTable'
-// 新增页面
-import Add from './Add'
-// 修改页面
-import Edit from './Edit'
 // 详情页面
 import Views from './View'
 
 import Menu from './Menu'
+
 import {getPermissionCode, hasPermission} from "@/utils/permissionDirect";
 
 export default {
   name: 'RoleIndex',
   // 定义组件
-  components: {Add, Edit, Views, Menu, CloudTb},
+  components: {Views, Menu, CloudTb},
   data() {
     return {
       // 冗余参数
@@ -143,15 +112,6 @@ export default {
       // 分页配置
       pageOptions: {
         rowKey: 'roleId'
-      },
-      // 子页面的显示控制参数
-      dialog: {
-        isVisible: false,
-        addTab: false,
-        menuTab: false,
-        viewTab: false,
-        editTab: false,
-        title: ''
       },
       // loading参数
       loading: false,
@@ -188,33 +148,25 @@ export default {
     // 详情操作tab
     viewTab(row) {
       const param = {roleId: row.roleId}
-      this.$refs.view.setModule(param)
-      this.dialog.title = '详情'
-      this.dialog.viewTab = true
+      this.$refs.view.view(param)
     },
     // 编辑操作tab
     editTab(row) {
       const param = {roleId: row.roleId}
-      this.$refs.edit.setModule(param)
-      this.dialog.title = '修改'
-      this.dialog.editTab = true
+      this.$refs.view.edit(param)
     },
     // tab操作
     addTab() {
-      this.dialog.title = '新增'
-      this.dialog.addTab = true
+      this.$refs.view.add()
+    },
+    // 窗口关闭回调
+    close() {
+      this.fetch()
     },
     // tab操作
     menuTab(row) {
       const param = {roleId: row.roleId}
-      this.$refs.menu.setModule(param)
-      this.dialog.title = '授权菜单'
-      this.dialog.menuTab = true
-    },
-    // 窗口关闭回调
-    close(tab) {
-      console.log('close', tab)
-      this.dialog[tab] = false
+      this.$refs.menu.edit(param)
     },
     // 删除数据
     delete(row) {

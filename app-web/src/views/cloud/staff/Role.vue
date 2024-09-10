@@ -1,15 +1,22 @@
 <template>
-  <el-dialog
-      :title="title"
-      :width="width"
-      top="100px"
-      v-loading="loading"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :visible.sync="addTab"
+  <CloudDialog
+    :width="width"
+    :title="title"
+    id="CloudDialog"
+    :formLoading="loading"
+    top="100px"
+    :view="readonly"
+    :close-on-click-modal="true"
+    :close-on-press-escape="false"
+    style="height: 90vh;overflow: auto;margin: 5vh auto"
+    :visible="visible"
+    @close="close"
+    @submitForm="submitForm"
   >
     <!--  表单部分  -->
-    <el-form ref="form" :model="module" label-position="right" label-width="100px">
+    <template v-slot:contentarea>
+      <el-form ref="form" id="el-form" :disabled="readonly" :model="module" label-position="right"
+               label-width="100px">
       <el-form-item label="选择角色" prop="adminType">
         <el-select v-model="module.roleIdList" multiple placeholder="请选择角色">
           <el-option
@@ -21,38 +28,23 @@
         </el-select>
       </el-form-item>
     </el-form>
-    <!--  按钮部分  -->
-    <div slot="footer" class="dialog-footer">
-      <el-button type="warning" plain :loading="buttonLoading" @click="addTab = false">
-        {{ $t('common.cancel') }}
-      </el-button>
-      <el-button type="primary" plain :loading="buttonLoading" @click="submitForm">
-        {{ $t('common.confirm') }}
-      </el-button>
-    </div>
-  </el-dialog>
+    </template>
+  </CloudDialog>
 </template>
 <script>
+import CloudDialog from "@/components/My/CloudDialog.vue";
 
-import {getDictMap} from "@/api/cloud/sys";
-import {getStaff} from "@/api/cloud/role";
 
 export default {
-  name: 'Add',
-  props: {
-    // 窗口控制
-    visible: {
-      type: Boolean,
-      default: false
-    },
-    // 窗口标题
-    title: {
-      type: String,
-      default: ''
-    }
-  },
+  name: 'Role',
+  components:{CloudDialog},
   data() {
     return {
+      title: '',
+      visible: false,
+      loading: false,
+      readonly: false,
+      screenWidth: 0,
       // 表单数据
       module: {
         roleIdList: [],
@@ -62,29 +54,11 @@ export default {
       form: {
         roleList: []
       },
-      // 按钮loading
-      buttonLoading: false,
       // 页面大小控制
-      screenWidth: 0,
-      loading: false,
       width: this.pageApi.initTabWidth(),
     }
   },
-  computed: {
-    addTab: {
-      get() {
-        return this.visible
-      },
-      set() {
-        this.close()
-        this.reset()
-      }
-    }
-  },
   mounted() {
-
-    // 加载详情
-    this.init()
     // 初始化数据字典
     window.onresize = () => {
       return (() => {
@@ -93,40 +67,42 @@ export default {
     }
   },
   methods: {
-    init() {
+    add(param) {
+      this.module.staffId = param.staffId
+      this.readonly = false
+      this.title = '授权角色'
+      this.visible = true
+      this.getInfo()
+    },
+    getInfo() {
       this.$api.cloud.role.list().then(res => {
         this.form.roleList = res.data
       })
 
-    },
-    // 初始化设置form表单数据
-    setModule(param) {
-      this.module.staffId = param.staffId
       // 加载数据字典
       const arr = []
+      this.loading = true
       this.$api.cloud.role.getStaff({staffId: this.module.staffId}).then(res => {
+        this.loading = false
         res.data.forEach((item) => {
           arr.push(item.roleId);
         });
         this.module.roleIdList = arr
-        console.log(this.module.roleIdList)
-
       })
     },
     // 关闭窗口并且透传
     close() {
-      this.$emit('close', 'roleTab')
+      this.$emit('close')
       this.reset()
-      this.buttonLoading = false
+      this.visible = false
     },
     // 提交表单
     submitForm() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.buttonLoading = true
+          this.loading = true
           this.$api.cloud.role.allotRole(this.module).then((res) => {
-            this.buttonLoading = false
-            this.isVisible = false
+            this.loading = false
             this.$message({
               message: '分配成功',
               type: 'success'
@@ -134,7 +110,7 @@ export default {
             this.$emit('success')
             this.close()
           }).catch((e) => {
-            this.buttonLoading = false
+            this.loading = false
           })
         } else {
           return false
@@ -154,39 +130,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.el-uploader {
-  border: 1px dashed #d9d9d9 !important;
-  border-radius: 6px;
-  width: 78px;
-  overflow: hidden;
-}
-
-.icon-uploader {
-  border: 1px dashed #d9d9d9 !important;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 78px;
-  position: relative;
-  overflow: hidden;
-}
-
-.avatar-uploader .el-upload:hover {
-  border-color: #409EFF;
-}
-
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 78px;
-  height: 78px;
-  line-height: 78px;
-  text-align: center;
-}
-
-.menu-icon {
-  width: 78px;
-  height: 78px;
-  display: block;
-}
-</style>
