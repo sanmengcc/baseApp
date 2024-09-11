@@ -1,9 +1,9 @@
 package com.base.app.service.core.impl;
 
 import com.base.app.config.encrypt.TokenConfig;
-import com.base.app.dto.user.LoginTokenDTO;
-import com.base.app.dto.user.LoginUserDTO;
-import com.base.app.dto.user.UserPermissionsDTO;
+import com.base.app.dto.core.user.LoginTokenDTO;
+import com.base.app.dto.core.user.LoginUserDTO;
+import com.base.app.dto.core.user.UserPermissionsDTO;
 import com.base.app.service.core.AuthService;
 import com.base.app.service.core.RedisService;
 import com.base.app.service.core.TokenService;

@@ -1,12 +1,12 @@
 package com.base.app.service.core.impl;
 
-import com.base.app.constants.StaffConstants;
-import com.base.app.dto.module.SystemModuleDTO;
-import com.base.app.dto.staff.StaffDTO;
-import com.base.app.dto.user.UserPermissionsDTO;
-import com.base.app.dto.user.VueRouterModuleVo;
+import com.base.app.constants.core.StaffConstants;
+import com.base.app.dto.core.module.SystemModuleDTO;
+import com.base.app.dto.core.staff.StaffDTO;
+import com.base.app.dto.core.user.UserPermissionsDTO;
+import com.base.app.dto.core.user.VueRouterModuleVo;
 import com.base.app.enums.ModuleEnum;
-import com.base.app.error.StaffErrorCode;
+import com.base.app.error.core.StaffErrorCode;
 import com.base.app.service.core.AuthService;
 import com.base.app.service.core.RoleService;
 import com.base.app.service.core.StaffService;

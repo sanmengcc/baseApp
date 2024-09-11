@@ -2,12 +2,12 @@ package com.base.app.service.core.impl;
 
 import com.base.app.config.oss.MinioConfig;
 import com.base.app.dao.core.OssFileDAO;
-import com.base.app.dto.oss.OssFileDTO;
-import com.base.app.dto.oss.OssSignatureDTO;
+import com.base.app.dto.core.oss.OssFileDTO;
+import com.base.app.dto.core.oss.OssSignatureDTO;
 import com.base.app.po.core.OssFilePo;
-import com.base.app.ro.oss.OssFileAddRo;
-import com.base.app.ro.oss.OssSignatureRo;
-import com.base.app.ro.oss.SearchRo;
+import com.base.app.ro.core.oss.OssFileAddRo;
+import com.base.app.ro.core.oss.OssSignatureRo;
+import com.base.app.ro.core.oss.SearchRo;
 import com.base.app.service.core.OssFileService;
 import com.base.app.service.core.OssService;
 import com.base.core.entity.Page;

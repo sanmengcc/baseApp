@@ -1,9 +1,9 @@
 package com.base.app.service.core.impl;
 
-import com.base.app.constants.RequestLogConstants;
+import com.base.app.constants.core.RequestLogConstants;
 import com.base.app.dao.core.RequestLogDAO;
-import com.base.app.dto.log.RequestLogDTO;
-import com.base.app.ro.log.ApiLogPageRo;
+import com.base.app.dto.core.log.RequestLogDTO;
+import com.base.app.ro.core.log.ApiLogPageRo;
 import com.base.app.service.core.RequestLogService;
 import com.base.core.entity.Page;
 import com.base.core.entity.Paging;

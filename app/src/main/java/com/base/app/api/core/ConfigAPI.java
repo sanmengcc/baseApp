@@ -1,9 +1,9 @@
 package com.base.app.api.core;
 
-import com.base.app.ro.host.AddRo;
-import com.base.app.ro.host.DeleteRo;
-import com.base.app.ro.host.EditRo;
-import com.base.app.ro.host.SearchRo;
+import com.base.app.ro.core.host.AddRo;
+import com.base.app.ro.core.host.DeleteRo;
+import com.base.app.ro.core.host.EditRo;
+import com.base.app.ro.core.host.SearchRo;
 import com.base.app.service.core.HostConfigService;
 import com.base.core.annotation.Api;
 import com.base.core.annotation.ApiPermission;

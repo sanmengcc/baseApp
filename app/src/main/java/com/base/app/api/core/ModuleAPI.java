@@ -1,6 +1,6 @@
 package com.base.app.api.core;
 
-import com.base.app.ro.module.*;
+import com.base.app.ro.core.module.*;
 import com.base.app.service.core.SystemModuleService;
 import com.base.core.annotation.Api;
 import com.base.core.annotation.ApiPermission;

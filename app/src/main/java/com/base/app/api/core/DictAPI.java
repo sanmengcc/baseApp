@@ -1,8 +1,8 @@
 package com.base.app.api.core;
 
-import com.base.app.dto.dict.DictDTO;
+import com.base.app.dto.core.dict.DictDTO;
 import com.base.app.service.core.DictService;
-import com.base.app.vo.sys.DictDataVo;
+import com.base.app.vo.core.DictDataVo;
 import com.base.core.annotation.Api;
 import com.base.core.annotation.ApiPermission;
 import com.base.core.api.BaseAPI;

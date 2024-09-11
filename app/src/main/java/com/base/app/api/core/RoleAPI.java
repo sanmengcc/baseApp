@@ -1,6 +1,6 @@
 package com.base.app.api.core;
 
-import com.base.app.ro.role.*;
+import com.base.app.ro.core.role.*;
 import com.base.app.service.core.RoleService;
 import com.base.core.annotation.Api;
 import com.base.core.annotation.ApiPermission;

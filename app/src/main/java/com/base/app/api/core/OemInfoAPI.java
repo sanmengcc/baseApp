@@ -1,9 +1,9 @@
 package com.base.app.api.core;
 
-import com.base.app.ro.oem.AddRo;
-import com.base.app.ro.oem.DeleteRo;
-import com.base.app.ro.oem.EditRo;
-import com.base.app.ro.oem.SearchRo;
+import com.base.app.ro.core.oem.AddRo;
+import com.base.app.ro.core.oem.DeleteRo;
+import com.base.app.ro.core.oem.EditRo;
+import com.base.app.ro.core.oem.SearchRo;
 import com.base.app.service.core.OemInfoService;
 import com.base.core.annotation.Api;
 import com.base.core.annotation.ApiPermission;

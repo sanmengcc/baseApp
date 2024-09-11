@@ -1,7 +1,7 @@
 package com.base.app.util;
 
 import com.base.app.config.oss.MinioConfig;
-import com.base.app.error.OssErrorCode;
+import com.base.app.error.core.OssErrorCode;
 import com.base.core.exception.CloudException;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;

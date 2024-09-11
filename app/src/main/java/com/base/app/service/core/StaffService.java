@@ -1,9 +1,9 @@
 package com.base.app.service.core;
 
-import com.base.app.dto.staff.StaffDTO;
-import com.base.app.ro.staff.AddRo;
-import com.base.app.ro.staff.EditRo;
-import com.base.app.ro.staff.SearchRo;
+import com.base.app.dto.core.staff.StaffDTO;
+import com.base.app.ro.core.staff.AddRo;
+import com.base.app.ro.core.staff.EditRo;
+import com.base.app.ro.core.staff.SearchRo;
 import com.base.core.entity.Page;
 
 /**

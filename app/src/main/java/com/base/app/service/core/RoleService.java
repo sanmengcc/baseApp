@@ -1,9 +1,9 @@
 package com.base.app.service.core;
 
-import com.base.app.dto.role.RoleDTO;
-import com.base.app.ro.role.AddRo;
-import com.base.app.ro.role.EditRo;
-import com.base.app.ro.role.SearchRo;
+import com.base.app.dto.core.role.RoleDTO;
+import com.base.app.ro.core.role.AddRo;
+import com.base.app.ro.core.role.EditRo;
+import com.base.app.ro.core.role.SearchRo;
 import com.base.core.entity.Page;
 
 import java.util.List;

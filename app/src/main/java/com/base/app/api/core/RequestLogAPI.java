@@ -1,7 +1,7 @@
 package com.base.app.api.core;
 
-import com.base.app.ro.log.ApiDeleteRo;
-import com.base.app.ro.log.ApiLogPageRo;
+import com.base.app.ro.core.log.ApiDeleteRo;
+import com.base.app.ro.core.log.ApiLogPageRo;
 import com.base.app.service.core.RequestLogService;
 import com.base.core.annotation.Api;
 import com.base.core.api.BaseAPI;

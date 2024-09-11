@@ -1,7 +1,10 @@
 package com.base.app.api.core;
 
-import com.base.app.dto.staff.StaffDTO;
-import com.base.app.ro.staff.*;
+import com.base.app.dto.core.staff.StaffDTO;
+import com.base.app.ro.core.staff.AddRo;
+import com.base.app.ro.core.staff.DeleteRo;
+import com.base.app.ro.core.staff.EditRo;
+import com.base.app.ro.core.staff.SearchRo;
 import com.base.app.service.core.StaffService;
 import com.base.core.annotation.Api;
 import com.base.core.api.BaseAPI;

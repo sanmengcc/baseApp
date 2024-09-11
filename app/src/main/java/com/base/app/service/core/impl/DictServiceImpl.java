@@ -1,10 +1,10 @@
 package com.base.app.service.core.impl;
 
-import com.base.app.constants.CacheConstants;
+import com.base.app.constants.core.CacheConstants;
 import com.base.app.dao.core.DictDataDAO;
 import com.base.app.service.core.DictService;
 import com.base.app.service.core.RedisService;
-import com.base.app.vo.sys.DictDataVo;
+import com.base.app.vo.core.DictDataVo;
 import com.base.util.JsonUtils;
 import com.base.util.ValidateHelper;
 import jakarta.annotation.Resource;

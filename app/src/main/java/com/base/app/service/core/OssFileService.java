@@ -1,10 +1,10 @@
 package com.base.app.service.core;
 
-import com.base.app.dto.oss.OssFileDTO;
-import com.base.app.dto.oss.OssSignatureDTO;
-import com.base.app.ro.oss.OssFileAddRo;
-import com.base.app.ro.oss.OssSignatureRo;
-import com.base.app.ro.oss.SearchRo;
+import com.base.app.dto.core.oss.OssFileDTO;
+import com.base.app.dto.core.oss.OssSignatureDTO;
+import com.base.app.ro.core.oss.OssFileAddRo;
+import com.base.app.ro.core.oss.OssSignatureRo;
+import com.base.app.ro.core.oss.SearchRo;
 import com.base.core.entity.Page;
 
 /**

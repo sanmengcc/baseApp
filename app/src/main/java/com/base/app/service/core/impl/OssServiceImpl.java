@@ -1,6 +1,6 @@
 package com.base.app.service.core.impl;
 
-import com.base.app.error.OssErrorCode;
+import com.base.app.error.core.OssErrorCode;
 import com.base.app.service.core.OssService;
 import com.base.app.util.MinioUtils;
 import com.base.core.constant.SystemConstants;

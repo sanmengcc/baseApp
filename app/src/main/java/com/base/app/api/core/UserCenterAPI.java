@@ -1,8 +1,8 @@
 package com.base.app.api.core;
 
-import com.base.app.dto.user.UserPermissionsDTO;
-import com.base.app.ro.user.ChangePasswordAdminRo;
-import com.base.app.ro.user.SearchRo;
+import com.base.app.dto.core.user.UserPermissionsDTO;
+import com.base.app.ro.core.user.ChangePasswordAdminRo;
+import com.base.app.ro.core.user.SearchRo;
 import com.base.app.service.core.AuthService;
 import com.base.app.service.core.UserService;
 import com.base.core.annotation.Api;

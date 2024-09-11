@@ -1,6 +1,6 @@
 package com.base.app.dao.core;
 
-import com.base.app.dto.role.RoleDTO;
+import com.base.app.dto.core.role.RoleDTO;
 import com.base.app.po.core.StaffRolePo;
 import com.base.core.mybatis.BaseDAO;
 import org.apache.ibatis.annotations.Mapper;

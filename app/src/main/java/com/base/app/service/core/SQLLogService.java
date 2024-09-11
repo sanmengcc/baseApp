@@ -1,7 +1,7 @@
 package com.base.app.service.core;
 
-import com.base.app.dto.log.SqlLogDTO;
-import com.base.app.ro.log.SQLLogPageRo;
+import com.base.app.dto.core.log.SqlLogDTO;
+import com.base.app.ro.core.log.SQLLogPageRo;
 import com.base.core.entity.Page;
 
 public interface SQLLogService {

@@ -1,6 +1,6 @@
 package com.base.app.dao.core;
 
-import com.base.app.dto.staff.StaffDTO;
+import com.base.app.dto.core.staff.StaffDTO;
 import com.base.app.po.core.StaffPo;
 import com.base.core.entity.Paging;
 import com.base.core.mybatis.BaseDAO;

@@ -84,7 +84,7 @@
         where role_id = #{roleId}
     </delete>
 
-    <select id="selectStaffRole" resultType="com.base.app.dto.role.RoleDTO">
+    <select id="selectStaffRole" resultType="com.base.app.dto.core.role.RoleDTO">
         select r.role_name roleName,
                r.role_id roleId
         from t_role r,

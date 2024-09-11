@@ -1,9 +1,9 @@
 package com.base.app.service.core;
 
-import com.base.app.dto.host.HostConfigDTO;
-import com.base.app.ro.host.AddRo;
-import com.base.app.ro.host.EditRo;
-import com.base.app.ro.host.SearchRo;
+import com.base.app.dto.core.host.HostConfigDTO;
+import com.base.app.ro.core.host.AddRo;
+import com.base.app.ro.core.host.EditRo;
+import com.base.app.ro.core.host.SearchRo;
 import com.base.core.entity.Page;
 
 import java.util.Map;

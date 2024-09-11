@@ -167,7 +167,7 @@
         <include refid="Where_Staff_Clause"/>
     </select>
 
-    <select id="selectStaff" resultType="com.base.app.dto.staff.StaffDTO">
+    <select id="selectStaff" resultType="com.base.app.dto.core.staff.StaffDTO">
         select
         s.staff_id staffId,
         s.user_global_id userGlobalId,
@@ -194,7 +194,7 @@
         </if>
     </select>
 
-    <select id="selectUserGlobalId" resultType="com.base.app.dto.staff.StaffDTO">
+    <select id="selectUserGlobalId" resultType="com.base.app.dto.core.staff.StaffDTO">
         select
             s.staff_id staffId,
             s.user_global_id userGlobalId,

@@ -1,9 +1,9 @@
 package com.base.app.service.core.impl;
 
-import com.base.app.constants.RequestLogConstants;
+import com.base.app.constants.core.RequestLogConstants;
 import com.base.app.dao.core.SqlLogDAO;
-import com.base.app.dto.log.SqlLogDTO;
-import com.base.app.ro.log.SQLLogPageRo;
+import com.base.app.dto.core.log.SqlLogDTO;
+import com.base.app.ro.core.log.SQLLogPageRo;
 import com.base.app.service.core.SQLLogService;
 import com.base.core.entity.Page;
 import com.base.core.entity.Paging;

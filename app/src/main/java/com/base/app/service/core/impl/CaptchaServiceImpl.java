@@ -1,6 +1,6 @@
 package com.base.app.service.core.impl;
 
-import com.base.app.constants.CacheConstants;
+import com.base.app.constants.core.CacheConstants;
 import com.base.app.service.core.CaptchaService;
 import com.base.app.service.core.RedisService;
 import com.base.util.UUIDGenerator;

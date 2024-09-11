@@ -1,6 +1,6 @@
 package com.base.app.service.core;
 
-import com.base.app.vo.sys.DictDataVo;
+import com.base.app.vo.core.DictDataVo;
 
 import java.util.List;
 import java.util.Map;

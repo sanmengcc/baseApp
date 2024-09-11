@@ -1,12 +1,12 @@
 package com.base.app.service.core.impl;
 
 import com.base.app.dao.core.OemInfoDAO;
-import com.base.app.dto.oem.OemInfoDTO;
-import com.base.app.error.OemInfoErrorCode;
+import com.base.app.dto.core.oem.OemInfoDTO;
+import com.base.app.error.core.OemInfoErrorCode;
 import com.base.app.po.core.OemInfoPo;
-import com.base.app.ro.oem.AddRo;
-import com.base.app.ro.oem.EditRo;
-import com.base.app.ro.oem.SearchRo;
+import com.base.app.ro.core.oem.AddRo;
+import com.base.app.ro.core.oem.EditRo;
+import com.base.app.ro.core.oem.SearchRo;
 import com.base.app.service.core.OemInfoService;
 import com.base.core.constant.CommonConstants;
 import com.base.core.entity.Page;

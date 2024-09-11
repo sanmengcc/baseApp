@@ -1,7 +1,7 @@
 package com.base.app.service.core;
 
-import com.base.app.dto.user.LoginTokenDTO;
-import com.base.app.dto.user.LoginUserDTO;
+import com.base.app.dto.core.user.LoginTokenDTO;
+import com.base.app.dto.core.user.LoginUserDTO;
 import com.base.core.entity.UserInfo;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.base.app.service.core;
 
-import com.base.app.dto.user.UserPermissionsDTO;
+import com.base.app.dto.core.user.UserPermissionsDTO;
 
 /**
  * 权限模块

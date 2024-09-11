@@ -1,11 +1,11 @@
 package com.base.app.service.core;
 
-import com.base.app.dto.module.ModuleTreeDTO;
-import com.base.app.dto.module.SystemModuleDTO;
-import com.base.app.ro.module.AddRo;
-import com.base.app.ro.module.ChangeRo;
-import com.base.app.ro.module.EditRo;
-import com.base.app.ro.module.SearchRo;
+import com.base.app.dto.core.module.ModuleTreeDTO;
+import com.base.app.dto.core.module.SystemModuleDTO;
+import com.base.app.ro.core.module.AddRo;
+import com.base.app.ro.core.module.ChangeRo;
+import com.base.app.ro.core.module.EditRo;
+import com.base.app.ro.core.module.SearchRo;
 import com.base.core.entity.Page;
 
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.base.app.api.core;
 
-import com.base.app.ro.oss.OssFileAddRo;
-import com.base.app.ro.oss.OssSignatureRo;
-import com.base.app.ro.oss.SearchRo;
+import com.base.app.ro.core.oss.OssFileAddRo;
+import com.base.app.ro.core.oss.OssSignatureRo;
+import com.base.app.ro.core.oss.SearchRo;
 import com.base.app.service.core.OssFileService;
 import com.base.core.annotation.Api;
 import com.base.core.annotation.ApiPermission;

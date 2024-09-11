@@ -1,7 +1,7 @@
 package com.base.app.service.core;
 
-import com.base.app.dto.log.RequestLogDTO;
-import com.base.app.ro.log.ApiLogPageRo;
+import com.base.app.dto.core.log.RequestLogDTO;
+import com.base.app.ro.core.log.ApiLogPageRo;
 import com.base.core.entity.Page;
 
 public interface RequestLogService {

@@ -1,6 +1,6 @@
 package com.base.app.api.core;
 
-import com.base.app.dto.user.LoginTokenDTO;
+import com.base.app.dto.core.user.LoginTokenDTO;
 import com.base.app.service.core.TokenService;
 import com.base.app.service.core.UserLoginService;
 import com.base.core.annotation.Api;

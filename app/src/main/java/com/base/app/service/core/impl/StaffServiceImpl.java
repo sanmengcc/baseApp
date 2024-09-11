@@ -1,18 +1,18 @@
 package com.base.app.service.core.impl;
 
-import com.base.app.constants.StaffConstants;
-import com.base.app.constants.UserConstants;
+import com.base.app.constants.core.StaffConstants;
+import com.base.app.constants.core.UserConstants;
 import com.base.app.dao.core.StaffArchiveDAO;
 import com.base.app.dao.core.StaffDAO;
-import com.base.app.dto.staff.StaffDTO;
-import com.base.app.dto.user.UserAccountDTO;
-import com.base.app.error.StaffErrorCode;
+import com.base.app.dto.core.staff.StaffDTO;
+import com.base.app.dto.core.user.UserAccountDTO;
+import com.base.app.error.core.StaffErrorCode;
 import com.base.app.po.core.StaffArchivePo;
 import com.base.app.po.core.StaffPo;
-import com.base.app.ro.staff.AddRo;
-import com.base.app.ro.staff.EditRo;
-import com.base.app.ro.staff.SearchRo;
-import com.base.app.ro.user.UserRegisterRo;
+import com.base.app.ro.core.staff.AddRo;
+import com.base.app.ro.core.staff.EditRo;
+import com.base.app.ro.core.staff.SearchRo;
+import com.base.app.ro.core.user.UserRegisterRo;
 import com.base.app.service.core.StaffService;
 import com.base.app.service.core.UserService;
 import com.base.core.constant.CommonConstants;

@@ -1,7 +1,7 @@
 package com.base.app.util;
 
-import com.base.app.dto.module.SystemModuleDTO;
-import com.base.app.dto.user.VueRouterModuleVo;
+import com.base.app.dto.core.module.SystemModuleDTO;
+import com.base.app.dto.core.user.VueRouterModuleVo;
 import com.base.app.enums.ModuleEnum;
 import com.base.core.constant.CommonConstants;
 import com.base.util.TreeUtils;

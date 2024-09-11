@@ -1,6 +1,6 @@
 package com.base.app.service.core;
 
-import com.base.app.dto.user.LoginTokenDTO;
+import com.base.app.dto.core.user.LoginTokenDTO;
 
 import java.util.Map;
 

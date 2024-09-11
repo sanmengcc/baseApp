@@ -1,9 +1,9 @@
 package com.base.app.service.core;
 
-import com.base.app.dto.oem.OemInfoDTO;
-import com.base.app.ro.oem.AddRo;
-import com.base.app.ro.oem.EditRo;
-import com.base.app.ro.oem.SearchRo;
+import com.base.app.dto.core.oem.OemInfoDTO;
+import com.base.app.ro.core.oem.AddRo;
+import com.base.app.ro.core.oem.EditRo;
+import com.base.app.ro.core.oem.SearchRo;
 import com.base.core.entity.Page;
 
 import java.util.List;
