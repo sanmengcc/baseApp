@@ -11,7 +11,10 @@ import * as user from './user'
 import * as hostconfig from './hostconfig'
 import * as oem from './oem'
 
-export {module, login,
-    loginlog, sys, role,
-    apilog, sqllog, staff,hostconfig,oem,
-    oss, user};
+export {
+  module,
+  login,
+  loginlog, sys, role,
+  apilog, sqllog, staff, hostconfig, oem,
+  oss, user
+};

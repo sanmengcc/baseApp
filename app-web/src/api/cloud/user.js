@@ -1,7 +1,7 @@
 import { post, get } from '@/utils/request'
 
 export function page(params) {
-    return get('/base-app/api/userCenter/searchPage', params)
+    return get('/base-app/api/userCenter/page', params)
 }
 
 export function changePassword(params) {

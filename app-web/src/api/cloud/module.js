@@ -2,27 +2,27 @@ import { post, get } from '@/utils/request'
 
 // 新增菜单
 export function add(params) {
-  return post("/base-app/api/module/addModule", params, true);
+  return post("/base-app/api/module/add", params, true);
 }
 
 // 编辑菜单
 export function edit(params) {
-  return post("/base-app/api/module/updateById", params, true)
+  return post("/base-app/api/module/edit", params, true)
 }
 
 // 菜单详情
 export function info(params) {
-  return get("/base-app/api/module/selectById", params)
+  return get("/base-app/api/module/info", params)
 }
 
 // 菜单分页
 export function page(params) {
-  return get("/base-app/api/module/searchPage", params)
+  return get("/base-app/api/module/page", params)
 }
 
 // 菜单列表
 export function list(params) {
-  return get("/base-app/api/module/selectByParentId", params)
+  return get("/base-app/api/module/list", params)
 }
 
 // 菜单删除
@@ -36,6 +36,6 @@ export function change(params) {
 }
 
 export function selectList(params) {
-  return get('/base-app/api/module/selectTree', params)
+  return get('/base-app/api/module/tree', params)
 }
 

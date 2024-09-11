@@ -1,7 +1,7 @@
 import { post, get } from '@/utils/request'
 
 export function page(params) {
-  return get('/base-app/api/staff/searchPage', params)
+  return get('/base-app/api/staff/page', params)
 }
 
 export function del(params) {
@@ -9,13 +9,13 @@ export function del(params) {
 }
 
 export function edit(params) {
-  return post('/base-app/api/staff/updateById', params,true)
+  return post('/base-app/api/staff/edit', params,true)
 }
 
 export function info(params) {
-  return get('/base-app/api/staff/selectById', params)
+  return get('/base-app/api/staff/info', params)
 }
 
 export function add(params) {
-  return post('/base-app/api/staff/addStaff', params, true);
+  return post('/base-app/api/staff/add', params, true);
 }

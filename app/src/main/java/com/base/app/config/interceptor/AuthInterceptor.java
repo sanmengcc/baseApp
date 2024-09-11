@@ -3,7 +3,7 @@ package com.base.app.config.interceptor;
 import com.base.app.config.encrypt.NeedSign;
 import com.base.app.config.encrypt.RequestWrapper;
 import com.base.app.config.encrypt.SignUtil;
-import com.base.app.service.TokenService;
+import com.base.app.service.core.TokenService;
 import com.base.core.annotation.ApiPermission;
 import com.base.core.constant.SystemConstants;
 import com.base.core.context.CloudManager;
