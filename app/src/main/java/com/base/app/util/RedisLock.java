@@ -1,21 +1,15 @@
 package com.base.app.util;
 
 import com.base.app.service.core.RedisService;
-import jakarta.annotation.Resource;
-import org.springframework.stereotype.Component;
-
+import com.base.util.SpringBeanUtil;
 /**
  * redis 分布式锁
  */
-@Component
 public class RedisLock {
-
-    @Resource
-    private RedisService redisService;
 
     private static final int DEFAULT_ACQUIRY_RESOLUTION_MILLIS = 100;
 
-    private String lockKey;
+    private final String lockKey;
 
     /**
      * 锁超时时间，防止线程在入锁以后，无限的执行等待
@@ -31,10 +25,26 @@ public class RedisLock {
 
     private String myExpires = "";
 
-
-    public synchronized Boolean lock(final String lockKey, final int expireMsecs) throws InterruptedException {
+    public RedisLock(final String lockKey) {
         this.lockKey = lockKey + "_lock";
+    }
+
+    public RedisLock(final String lockKey, final int timeoutMsecs) {
+        this(lockKey);
+        this.timeoutMsecs = timeoutMsecs;
+    }
+
+    public RedisLock(final String lockKey, final int timeoutMsecs, final int expireMsecs) {
+        this(lockKey, timeoutMsecs);
         this.expireMsecs = expireMsecs;
+    }
+
+    public String getLockKey() {
+        return lockKey;
+    }
+
+    public synchronized Boolean lock() throws InterruptedException {
+        RedisService redisService = SpringBeanUtil.getBean(RedisService.class);
 
         int timeout = timeoutMsecs;
         while (timeout >= 0) {
@@ -47,8 +57,8 @@ public class RedisLock {
                 return true;
             }
 
-            final String currentValueStr = redisService.getExpireString(lockKey);
-            if (currentValueStr != null && Long.parseLong(currentValueStr) < System.currentTimeMillis()) {
+            final Long currentValueStr = redisService.getExpire(lockKey);
+            if (currentValueStr != null && currentValueStr < System.currentTimeMillis()) {
                 //判断是否为空，不为空的情况下，如果被其他线程设置了值，则第二个条件判断是过不去的
                 final String oldValueStr = redisService.getSet(lockKey, expiresStr);
                 //获取上一个锁到期时间，并设置现在的锁到期时间，
@@ -68,8 +78,9 @@ public class RedisLock {
     }
 
     public synchronized void unlock() {
+        RedisService redisService = SpringBeanUtil.getBean(RedisService.class);
         // 如果当前redis中的锁与上锁相同删除锁
-        if (myExpires.equals(redisService.getExpireString(lockKey))) {
+        if (myExpires.equals(redisService.getExpire(lockKey))) {
             if (locked) {
                 redisService.delete(lockKey);
                 locked = false;
