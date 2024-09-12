@@ -52,7 +52,6 @@ subprojects {
         commonslang3Version = "3.11"
         kaptchaVersion = "2.3.2"
         reflectionsVersion = "0.9.10"
-        validationApiVersion = "3.0.2"
     }
 
     //子模块依赖
@@ -62,7 +61,6 @@ subprojects {
         // Gradle项目需要加入此支持
         annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
         implementation "org.reflections:reflections:${reflectionsVersion}"
-        implementation "jakarta.validation:jakarta.validation-api:${validationApiVersion}"
         implementation "org.springframework.boot:spring-boot-starter-validation"
 
         apiImplementation "com.fasterxml.jackson.core:jackson-databind"

@@ -31,4 +31,11 @@ public interface StaffDAO extends BaseDAO<StaffPo> {
      * @return
      */
     StaffDTO selectUserGlobalId(String userGlobalId);
+
+    /**
+     * 根据用户名查询
+     * @param account
+     * @return
+     */
+    StaffPo selectByAccount(String account);
 }

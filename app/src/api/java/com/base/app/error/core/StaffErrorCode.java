@@ -9,6 +9,9 @@ import com.base.core.error.IErrorCode;
 public enum StaffErrorCode implements IErrorCode {
 
     STAFF_IS_NOT_EXIST("员工账号不存在！"),
+    STAFF_IS_EXIST("员工账号已存在！"),
+    STAFF_ACCOUNT_IS_EXIST("员工用户名已存在！"),
+    STAFF_MOBILE_IS_EXIST("员工手机号码已存在！"),
     SUPER_ADMIN_NOT_DELETE("超级管理员不允许删除！"),
     ;
 

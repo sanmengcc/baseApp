@@ -119,4 +119,12 @@
         t_staff_archive
         where staff_id = #{staff_id}
     </select>
+
+    <select id="selectByMobile" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_staff_archive
+        where mobile = #{mobile}
+    </select>
 </mapper>

@@ -18,13 +18,13 @@
       <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right"
                label-width="100px">
         <el-form-item label="用户名" prop="account">
-          <el-input v-model="module.account" placeholder="请输入用户名" show-word-limit maxlength="20"/>
+          <el-input v-model="module.account" placeholder="请输入用户名" :disabled="disabled" show-word-limit maxlength="20"/>
         </el-form-item>
         <el-form-item label="员工姓名" prop="staffName">
           <el-input v-model="module.staffName" placeholder="请输入员工姓名" show-word-limit maxlength="20"/>
         </el-form-item>
         <el-form-item label="手机号码" prop="mobile">
-          <el-input v-model="module.mobile" placeholder="请输入手机号码" show-word-limit maxlength="11"/>
+          <el-input v-model="module.mobile" placeholder="请输入手机号码" :disabled="disabled" show-word-limit maxlength="11"/>
         </el-form-item>
         <el-form-item label="电子邮箱" prop="email">
           <el-input v-model="module.email" placeholder="请输入电子邮箱" show-word-limit maxlength="30"/>
@@ -71,7 +71,7 @@
         <el-form-item label="备注信息" prop="remark">
           <el-input v-model="module.remark" placeholder="请输入备注信息" show-word-limit maxlength="50"/>
         </el-form-item>
-    </el-form>
+      </el-form>
     </template>
   </CloudDialog>
 </template>
@@ -87,10 +87,13 @@ export default {
       title: '',
       visible: false,
       loading: false,
+      disabled: false,
       readonly: false,
       screenWidth: 0,
       width: this.pageApi.initTabWidth(),
-      module: {},
+      module: {
+        staffId:''
+      },
       // 表单参数
       form: {
         dict: {}
@@ -107,16 +110,16 @@ export default {
         mobile: [
           { required: true, message: '手机号码不能为空', trigger: 'blur' },
           { min: 1, max: 11, message: '手机号码不能超过11个字符', trigger: 'blur' },
-          { pattern: /^1[3456789]\d{9}$/, message: '请输入正确的手机号码', trigger: ['blur', 'change'] }
+          { pattern: /^1[3456789]\d{9}$/, message: '请输入正确的手机号码', trigger: ['blur'] }
         ],
         email: [
           { required: true, message: '电子邮箱不能为空', trigger: 'blur' },
           { min: 1, max: 30, message: '电子邮箱不能超过30个字符', trigger: 'blur' },
-          { pattern: /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/, message: '请输入正确的电子邮箱', trigger: ['blur', 'change'] }
+          { pattern: /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/, message: '请输入正确的电子邮箱', trigger: ['blur'] }
         ],
-        status: { required: true, message: '在职状态不能为空', trigger: 'change' },
-        adminType: { required: true, message: '员工类型不能为空', trigger: 'change' },
-        entryDate: { required: true, message: '入职日期不能为空', trigger: 'change' },
+        status: { required: true, message: '在职状态不能为空', trigger: 'blur' },
+        adminType: { required: true, message: '员工类型不能为空', trigger: 'blur' },
+        entryDate: { required: true, message: '入职日期不能为空', trigger: 'blur' },
       }
     }
   },
@@ -131,11 +134,13 @@ export default {
   methods: {
     add() {
       this.readonly = false
+      this.disabled = false
       this.title = '新增员工'
       this.visible = true
     },
     edit(param) {
       this.readonly = false
+      this.disabled = true
       this.title = '编辑员工'
       this.visible = true
       this.module.staffId = param.staffId
@@ -144,6 +149,7 @@ export default {
     view(param) {
       // 设置表单只读
       this.readonly = true
+      this.disabled = true
       // 设置dialog标题
       this.title = '查看员工'
       // 打开弹窗

@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class StaffServiceImpl implements StaffService {
@@ -55,16 +56,24 @@ public class StaffServiceImpl implements StaffService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addStaff(AddRo addRo) {
+        if (Objects.nonNull(staffDAO.selectByAccount(addRo.getAccount()) != null)) {
+            throw new CloudException(StaffErrorCode.STAFF_ACCOUNT_IS_EXIST);
+        }
+        if (Objects.nonNull(staffArchiveDAO.selectByMobile(addRo.getMobile()) != null)) {
+            throw new CloudException(StaffErrorCode.STAFF_MOBILE_IS_EXIST);
+        }
         String staffId = UUIDGenerator.generate();
         StaffPo staffPo = JsonUtils.createBean(addRo, StaffPo.class);
         StaffArchivePo archivePo = JsonUtils.createBean(addRo, StaffArchivePo.class);
         staffPo.setStaffId(staffId);
         archivePo.setStaffId(staffId);
         archivePo.setArchiveId(UUIDGenerator.generate());
-
         // 创建用户生成userGlobalId
         UserRegisterRo registerRo = this.buildRegisterRO(staffPo, archivePo);
         String userGlobalId = this.userService.register(registerRo);
+        if (this.staffDAO.selectUserGlobalId(userGlobalId) != null) {
+            throw new CloudException(StaffErrorCode.STAFF_IS_EXIST);
+        }
         staffPo.setUserGlobalId(userGlobalId);
         staffPo.setDelStatus(CommonConstants.Del.NOT_DEL);
         staffPo.setGmtCreate(new Date());
@@ -117,6 +126,46 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public StaffDTO selectUserGlobalId(String userGlobalId) {
         return this.staffDAO.selectUserGlobalId(userGlobalId);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public String register(StaffDTO staffDTO) {
+        StaffArchivePo archivePo = this.staffArchiveDAO.selectByMobile(staffDTO.getMobile());
+        if (Objects.nonNull(archivePo)) {
+            StaffPo staffPo = this.staffDAO.queryById(archivePo.getStaffId());
+            JsonUtils.copyBeanNotNull2Bean(staffDTO, staffPo);
+            staffPo.setGmtModified(new Date());
+            this.staffDAO.update(staffPo);
+
+            JsonUtils.copyBeanNotNull2Bean(staffDTO, archivePo);
+            archivePo.setGmtModified(new Date());
+            this.staffArchiveDAO.update(archivePo);
+
+            UserRegisterRo registerRo = this.buildRegisterRO(staffPo, archivePo);
+            registerRo.setUserGlobalId(staffPo.getUserGlobalId());
+            this.userService.updateRegister(registerRo);
+            return archivePo.getStaffId();
+        }else {
+            String staffId = UUIDGenerator.generate();
+            StaffPo staffPo = JsonUtils.createBean(staffDTO, StaffPo.class);
+            archivePo = JsonUtils.createBean(staffDTO, StaffArchivePo.class);
+            staffPo.setStaffId(staffId);
+            archivePo.setStaffId(staffId);
+            archivePo.setArchiveId(UUIDGenerator.generate());
+
+            // 创建用户生成userGlobalId
+            UserRegisterRo registerRo = this.buildRegisterRO(staffPo, archivePo);
+            String userGlobalId = this.userService.register(registerRo);
+            staffPo.setUserGlobalId(userGlobalId);
+            staffPo.setDelStatus(CommonConstants.Del.NOT_DEL);
+            staffPo.setGmtCreate(new Date());
+            archivePo.setGmtCreate(new Date());
+            this.staffDAO.add(staffPo);
+
+            this.staffArchiveDAO.add(archivePo);
+            return staffId;
+        }
     }
 
     /**

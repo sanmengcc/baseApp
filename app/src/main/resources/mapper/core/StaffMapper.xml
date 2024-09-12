@@ -216,4 +216,10 @@
         where s.staff_id = a.staff_id and s.user_global_id = #{userGlobalId} and s.del_status = '1'
     </select>
 
+    <select id="selectByAccount" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_staff
+        WHERE account = #{account}
+    </select>
+
 </mapper>

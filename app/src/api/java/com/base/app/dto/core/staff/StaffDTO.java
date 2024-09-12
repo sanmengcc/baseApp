@@ -28,7 +28,7 @@ public class StaffDTO extends BaseValue {
     private String userGlobalId;
 
     /**
-     * 员工类型;001:系统管理员；s02；普通员工
+     * 员工类型;001:系统管理员；002；普通员工
      */
     @DictAnnotation(name = FieldConstants.Staff.ADMIN_TYPE)
     private String adminType;

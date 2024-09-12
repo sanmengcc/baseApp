@@ -26,7 +26,7 @@
       <el-button class="footer-button" type="warning" plain @click="handleClose">
         关闭
       </el-button>
-      <el-button v-show="!view" class="footer-button" type="primary" plain @click="submitForm">
+      <el-button v-show="!view" :loading="submitLoading" class="footer-button" type="primary" plain @click="submitForm">
         提交
       </el-button>
     </div>
@@ -63,6 +63,7 @@ export default {
   },
   watch: {
     formLoading(loading) {
+      this.submitLoading = loading
       if (loading) {
         this.buttonLoading = dialogLoading()
       } else {
@@ -74,7 +75,8 @@ export default {
   },
   data() {
     return {
-      buttonLoading: false
+      buttonLoading: false,
+      submitLoading: false
     }
   },
   methods: {
@@ -85,6 +87,7 @@ export default {
           form.scrollTop = 0;
         }
       });
+      this.$emit('open')
     },
     handleClose() {
       this.$emit('close')

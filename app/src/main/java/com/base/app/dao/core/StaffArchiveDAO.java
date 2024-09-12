@@ -13,4 +13,11 @@ public interface StaffArchiveDAO extends BaseDAO<StaffArchivePo> {
      * @return
      */
     StaffArchivePo selectByStaffId(String staffId);
+
+    /**
+     * 按手机号查询
+     * @param mobile
+     * @return
+     */
+    StaffArchivePo selectByMobile(String mobile);
 }

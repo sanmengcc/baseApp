@@ -51,4 +51,10 @@ public interface StaffService {
      */
     StaffDTO selectUserGlobalId(String userGlobalId);
 
+    /**
+     * 员工注册
+     * @param staffDTO
+     * @return
+     */
+    String register(StaffDTO staffDTO);
 }
