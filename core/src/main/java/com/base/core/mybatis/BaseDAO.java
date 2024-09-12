@@ -1,8 +1,6 @@
 package com.base.core.mybatis;
 
-
 import com.base.core.entity.Paging;
-
 import java.util.List;
 
 /**
