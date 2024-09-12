@@ -10,14 +10,9 @@ import com.base.core.context.CloudManager;
 import com.base.core.entity.R;
 import com.base.core.entity.UserInfo;
 import com.base.core.interceptor.BaseAuthInterceptor;
-import com.base.util.JsonUtils;
-import com.base.util.MD5Utils;
-import com.base.util.ServletUtils;
-import com.base.util.ValidateHelper;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.base.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Resource;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +20,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.*;
+
+import static com.base.util.StringUtils.*;
 
 @Slf4j
 @Configuration
@@ -124,16 +120,17 @@ public class AuthInterceptor extends BaseAuthInterceptor implements HandlerInter
             return false;
         }
         // 默认需要登陆
-        List<String> permissionURL = tokenService.getPermissionURL(token);
+        List<String> permissionURLs = tokenService.getPermissionURL(token);
 
         // 判断权限
-        if (!permissionURL.contains(requestURI)) {
-            super.failure(response, R.error("401","无权限访问!"));
+        boolean anyMatch = permissionURLs.stream()
+                .anyMatch(permissionURL -> matches(requestURI, permissionURL));
+        if (!anyMatch) {
+            super.failure(response, R.error("401", "无权限访问!"));
             return false;
         }
 
         return setUserInfo(token, response);
-
     }
 
 

@@ -20,6 +20,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-data-redis"
     // mysql
     implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}"
+    implementation "org.apache.commons:commons-lang3:${commonslang3Version}"
     implementation "mysql:mysql-connector-java"
     implementation "io.minio:minio:8.2.1"
     //加解密

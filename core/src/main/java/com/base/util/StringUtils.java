@@ -27,7 +27,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils{
      * @param pattern 需要检查的字符串
      * @return 是否匹配
      */
-    public static boolean matches(String str, String pattern) {
+    public static Boolean matches(String str, String pattern) {
         if (ValidateHelper.isEmptyString(pattern) || ValidateHelper.isEmptyString(str)) {
             return false;
         }
