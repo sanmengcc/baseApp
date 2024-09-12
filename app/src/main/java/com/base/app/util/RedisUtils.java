@@ -1,7 +1,10 @@
 package com.base.app.util;
 
+import com.base.core.exception.CloudException;
 import jakarta.annotation.Resource;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -107,5 +110,67 @@ public class RedisUtils {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * 设置Nx
+     * @param key
+     * @param value
+     * @return
+     */
+    public Boolean setNx(final String key, final String value) {
+        Boolean b = false;
+        try {
+            b = (Boolean) redisTemplate.execute((final RedisConnection c) -> {
+                final StringRedisSerializer serializer = new StringRedisSerializer();
+                final Boolean success = c.setNX(serializer.serialize(key), serializer.serialize(value));
+                c.close();
+                return success;
+            });
+        } catch (Exception e) {
+            return false;
+        }
+        return b;
+    }
+
+    /**
+     * getExpire
+     * @param key
+     * @return
+     */
+    public String getExpireString(final String key) {
+        String obj = null;
+        try {
+            obj = (String) redisTemplate.execute((final RedisConnection c) -> {
+                final StringRedisSerializer serializer = new StringRedisSerializer();
+                final byte[] data = c.get(serializer.serialize(key));
+                c.close();
+                return serializer.deserialize(data);
+            });
+        } catch (Exception ex) {
+            throw new CloudException("getExpire Fail.");
+        }
+        return obj;
+    }
+
+    /**
+     * getSet
+     * @param key
+     * @param value
+     * @return
+     */
+    public String getSet(final String key, final String value) {
+        String obj = null;
+        try {
+            obj = (String) redisTemplate.execute((final RedisConnection c) -> {
+                final StringRedisSerializer serializer = new StringRedisSerializer();
+                final byte[] ret = c.getSet(serializer.serialize(key), serializer.serialize(value));
+                c.close();
+                return serializer.deserialize(ret);
+            });
+        } catch (Exception ex) {
+            throw new CloudException("getSet Fail.");
+        }
+        return obj;
     }
 }

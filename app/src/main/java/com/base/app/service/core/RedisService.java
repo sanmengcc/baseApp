@@ -39,4 +39,25 @@ public interface RedisService {
      * 获取指定key的内容
      */
     Object getValue(String key);
+
+
+    /**
+     * set nx
+     */
+    Boolean setNx(final String key, final String value);
+
+    /**
+     * getExpireString
+     * @param key
+     * @return
+     */
+    String getExpireString(final String key);
+
+    /**
+     * getSet
+     * @param key
+     * @param value
+     * @return
+     */
+    String getSet(final String key, final String value);
 }

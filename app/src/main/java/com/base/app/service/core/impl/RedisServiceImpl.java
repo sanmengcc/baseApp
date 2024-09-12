@@ -46,4 +46,20 @@ public class RedisServiceImpl implements RedisService {
     public Object getValue(String key) {
         return redisUtils.get(key);
     }
+
+    @Override
+    public Boolean setNx(String key, String value) {
+
+        return redisUtils.setNx(key, value);
+    }
+
+    @Override
+    public String getExpireString(String key) {
+        return redisUtils.getExpireString(key);
+    }
+
+    @Override
+    public String getSet(String key, String value) {
+        return redisUtils.getSet(key, value);
+    }
 }
