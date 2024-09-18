@@ -12,7 +12,7 @@
           <el-input-number
               class="filter-item search-item"
               v-model="queryParams.startTime"
-              :max="99999" label="耗时最小值"/>
+              :max="99999999" label="耗时最小值"/>
         </el-form-item>
 
         <el-button class="filter-item" type="primary" plain @click="search">

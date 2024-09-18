@@ -16,74 +16,98 @@
     <template v-slot:contentarea>
       <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right"
                label-width="100px">
-        <el-form-item label="系统域名" prop="host">
-          <el-input v-model="module.host" placeholder="请输入系统域名" show-word-limit maxlength="20"/>
-        </el-form-item>
-        <el-form-item label="系统名称" prop="sysName"
-                      :rules="dynamicValidate.sysName"
-        >
-          <el-input v-model="form.config.sysName" placeholder="请输入系统域名" show-word-limit maxlength="20"/>
-        </el-form-item>
-        <el-form-item label="所属租户" prop="oemCode">
-          <el-select v-model="module.oemCode" placeholder="请选择所属租户">
-            <el-option
-              v-for="item in form.oem"
-              :key="item.oemCode"
-              :label="item.oemName"
-              :value="String(item.oemCode)"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="网站图标">
-          <el-upload
-            class="icon-uploader"
-            action="#"
-            accept=".png, .jpg,.svg"
-            :http-request="(params) => upload(params,'favicon')"
-            :show-file-list="false">
-            <img v-if="form.config.favicon" :src="form.config.favicon" class="menu-icon">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="登录页背景图">
-          <el-upload
-            class="icon-uploader"
-            action="#"
-            accept=".png, .jpg,.svg"
-            :http-request="(params) => upload(params,'backgroundImage')"
-            :show-file-list="false">
-            <img v-if="form.config.backgroundImage" :src="form.config.backgroundImage" class="menu-icon">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="登录页特效图">
-          <el-upload
-            class="icon-uploader"
-            action="#"
-            accept=".png, .jpg,.svg"
-            :http-request="(params) => upload(params,'loginLeftImage')"
-            :show-file-list="false">
-            <img v-if="form.config.loginLeftImage" :src="form.config.loginLeftImage" class="menu-icon">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="登录页LOGO">
-          <el-upload
-            class="icon-uploader"
-            action="#"
-            accept=".png, .jpg,.svg"
-            :http-request="(params) => upload(params,'loginLogo')"
-            :show-file-list="false">
-            <img v-if="form.config.loginLogo" :src="form.config.loginLogo" class="menu-icon">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="登陆表单文案">
-          <el-input v-model="form.config.loginTitle" placeholder="请输入登陆表单文案" show-word-limit maxlength="10"/>
-        </el-form-item>
-        <el-form-item label="版权信息">
-          <el-input v-model="form.config.copyright" placeholder="请输入版权信息" show-word-limit maxlength="50"/>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="系统域名" prop="host">
+              <el-input v-model="module.host" placeholder="请输入系统域名" show-word-limit maxlength="20"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="系统名称" prop="sysName"
+                          :rules="dynamicValidate.sysName"
+            >
+              <el-input v-model="form.config.sysName" placeholder="请输入系统域名" show-word-limit maxlength="20"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="所属租户" prop="oemCode">
+              <el-select v-model="module.oemCode" placeholder="请选择所属租户">
+                <el-option
+                  v-for="item in form.oem"
+                  :key="item.oemCode"
+                  :label="item.oemName"
+                  :value="String(item.oemCode)"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="版权信息">
+              <el-input v-model="form.config.copyright" placeholder="请输入版权信息" show-word-limit maxlength="50"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="网站图标">
+              <el-upload
+                class="icon-uploader"
+                action="#"
+                accept=".png, .jpg,.svg"
+                :http-request="(params) => upload(params,'favicon')"
+                :show-file-list="false">
+                <img v-if="form.config.favicon" :src="form.config.favicon" class="menu-icon">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="登录页背景图">
+              <el-upload
+                class="icon-uploader"
+                action="#"
+                accept=".png, .jpg,.svg"
+                :http-request="(params) => upload(params,'backgroundImage')"
+                :show-file-list="false">
+                <img v-if="form.config.backgroundImage" :src="form.config.backgroundImage" class="menu-icon">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="登录页特效图">
+              <el-upload
+                class="icon-uploader"
+                action="#"
+                accept=".png, .jpg,.svg"
+                :http-request="(params) => upload(params,'loginLeftImage')"
+                :show-file-list="false">
+                <img v-if="form.config.loginLeftImage" :src="form.config.loginLeftImage" class="menu-icon">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="登录页LOGO">
+              <el-upload
+                class="icon-uploader"
+                action="#"
+                accept=".png, .jpg,.svg"
+                :http-request="(params) => upload(params,'loginLogo')"
+                :show-file-list="false">
+                <img v-if="form.config.loginLogo" :src="form.config.loginLogo" class="menu-icon">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
     </template>
   </CloudDialog>

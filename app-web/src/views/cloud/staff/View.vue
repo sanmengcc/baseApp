@@ -17,57 +17,81 @@
     <template v-slot:contentarea>
       <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right"
                label-width="100px">
-        <el-form-item label="用户名" prop="account">
-          <el-input v-model="module.account" placeholder="请输入用户名" :disabled="disabled" show-word-limit maxlength="20"/>
-        </el-form-item>
-        <el-form-item label="员工姓名" prop="staffName">
-          <el-input v-model="module.staffName" placeholder="请输入员工姓名" show-word-limit maxlength="20"/>
-        </el-form-item>
-        <el-form-item label="手机号码" prop="mobile">
-          <el-input v-model="module.mobile" placeholder="请输入手机号码" :disabled="disabled" show-word-limit maxlength="11"/>
-        </el-form-item>
-        <el-form-item label="电子邮箱" prop="email">
-          <el-input v-model="module.email" placeholder="请输入电子邮箱" show-word-limit maxlength="30"/>
-        </el-form-item>
-        <el-form-item label="入职日期" prop="entryDate">
-          <el-date-picker
-            v-model="module.entryDate"
-            value-format="yyyy-MM-dd"
-            type="date"
-            placeholder="请选择入职日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="员工类型" prop="adminType">
-          <el-select v-model="module.adminType" value="" placeholder="请选择员工类型">
-            <el-option
-              v-for="item in form.dict.ADMIN_TYPE"
-              :key="item.dictKey"
-              :label="item.dictValue"
-              :value="String(item.dictKey)"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="在职状态" prop="status">
-          <el-select v-model="module.status" value="" placeholder="请选择在职状态">
-            <el-option
-              v-for="item in form.dict.WORK_STATUS"
-              :key="item.dictKey"
-              :label="item.dictValue"
-              :value="String(item.dictKey)"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="头像图片" prop="avatarUrl">
-          <el-upload
-            class="icon-uploader"
-            action="#"
-            accept=".png, .jpg"
-            :http-request="uploadIcon"
-            :show-file-list="false" >
-            <img v-if="module.avatarUrl" :src="module.avatarUrl" class="menu-icon">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="用户名" prop="account">
+              <el-input v-model="module.account" placeholder="请输入用户名" :disabled="disabled" show-word-limit maxlength="20"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="员工姓名" prop="staffName">
+              <el-input v-model="module.staffName" placeholder="请输入员工姓名" show-word-limit maxlength="20"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="手机号码" prop="mobile">
+              <el-input v-model="module.mobile" placeholder="请输入手机号码" :disabled="disabled" show-word-limit maxlength="11"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="电子邮箱" prop="email">
+              <el-input v-model="module.email" placeholder="请输入电子邮箱" show-word-limit maxlength="30"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="入职日期" prop="entryDate">
+              <el-date-picker
+                v-model="module.entryDate"
+                value-format="yyyy-MM-dd"
+                type="date"
+                placeholder="请选择入职日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="员工类型" prop="adminType">
+              <el-select v-model="module.adminType" value="" placeholder="请选择员工类型">
+                <el-option
+                  v-for="item in form.dict.ADMIN_TYPE"
+                  :key="item.dictKey"
+                  :label="item.dictValue"
+                  :value="String(item.dictKey)"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="头像图片" prop="avatarUrl">
+              <el-upload
+                class="icon-uploader"
+                action="#"
+                accept=".png, .jpg"
+                :http-request="uploadIcon"
+                :show-file-list="false" >
+                <img v-if="module.avatarUrl" :src="module.avatarUrl" class="menu-icon">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="在职状态" prop="status">
+              <el-select v-model="module.status" value="" placeholder="请选择在职状态">
+                <el-option
+                  v-for="item in form.dict.WORK_STATUS"
+                  :key="item.dictKey"
+                  :label="item.dictValue"
+                  :value="String(item.dictKey)"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item label="备注信息" prop="remark">
           <el-input v-model="module.remark" placeholder="请输入备注信息" show-word-limit maxlength="50"/>
         </el-form-item>
