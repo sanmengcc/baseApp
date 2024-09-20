@@ -1,38 +1,9 @@
 <template>
-  <CloudDialog
-    :width="width"
-    :title="title"
-    id="CloudDialog"
-    :formLoading="loading"
-    top="100px"
-    :view="readonly"
-    :close-on-click-modal="true"
-    :close-on-press-escape="false"
-    style="height: 90vh;overflow: auto;margin: 5vh auto"
-    :visible="visible"
-    @close="close"
-    @submitForm="submitForm"
-  >
+  <CloudDialog :width="width" :title="title" id="CloudDialog" :formLoading="loading" top="100px" :view="readonly" style="height: 90vh;overflow: auto;margin: 5vh auto" :visible="visible" @close="close" @submitForm="submitForm">
     <template v-slot:contentarea>
-      <el-form ref="form" id="el-form" v-loading="loading" :disabled="readonly" :model="module" label-position="right"
-               label-width="100px">
-        <el-input
-          style="top:20px"
-          placeholder="输入关键字进行过滤"
-          v-model="filterText">
-        </el-input>
-        <el-tree
-          style="top:20px"
-          class="filter-tree"
-          :data="form.data"
-          :props="defaultProps"
-          show-checkbox
-          node-key="moduleId"
-          default-expand-all
-          :default-checked-keys="form.moduleIdList"
-          :filter-node-method="filterNode"
-          ref="tree">
-        </el-tree>
+      <el-form ref="form" id="el-form" v-loading="loading" :disabled="readonly" :model="module" label-position="right" label-width="100px">
+        <el-input style="top:20px" placeholder="输入关键字进行过滤" v-model="filterText"></el-input>
+        <el-tree style="top:20px" class="filter-tree" :data="form.data" :props="defaultProps" show-checkbox node-key="moduleId" default-expand-all :default-checked-keys="form.moduleIdList" :filter-node-method="filterNode" ref="tree"></el-tree>
       </el-form>
     </template>
   </CloudDialog>
@@ -54,7 +25,6 @@ export default {
       visible: false,
       loading: false,
       readonly: false,
-      screenWidth: 0,
       filterText: '',
       defaultProps: {
         children: 'children',

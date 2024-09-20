@@ -1,20 +1,7 @@
 <template>
-  <CloudDialog
-    :width="width"
-    :title="title"
-    id="CloudDialog"
-    :formLoading="loading"
-    top="100px"
-    :view="readonly"
-    :close-on-click-modal="true"
-    :close-on-press-escape="false"
-    style="height: 90vh;overflow: auto;margin: 5vh auto"
-    :visible="visible"
-    @close="close"
-  >
+  <CloudDialog :width="width" :title="title" id="CloudDialog" :formLoading="loading" top="100px" :view="readonly" :visible="visible" @close="close">
     <template v-slot:contentarea>
-      <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right"
-               label-width="100px">
+      <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right" label-width="100px">
         <el-form-item label="SQLID" prop="mapper">
           <el-input v-model="module.mapper"/>
         </el-form-item>
@@ -45,7 +32,6 @@ export default {
       visible: false,
       loading: false,
       readonly: false,
-      screenWidth: 0,
       width: this.pageApi.initTabWidth(),
       module: {},
       rules: {}

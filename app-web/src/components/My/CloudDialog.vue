@@ -4,10 +4,13 @@
     top="15vh"
     :title="title"
     :view="view"
+    :width="width"
     custom-class="cloud-loading"
+    :append-to-body="true"
+    :modal-append-to-body="false"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
-    style="height: 90vh;overflow: auto; margin: 5vh auto"
+    style="height:90vh;overflow: auto; margin: 5vh auto"
     :visible="visible"
     :before-close="handleClose"
     @open="openSrcoll()"
@@ -18,7 +21,7 @@
     <div
       contenteditable="false"
       :class="view ? 'dialog-form-view' : 'dialog-form'"
-      style="height: 50vh;overflow-y: auto;border-top: 2px solid #f5f7fa;">
+      :style="formStyle">
       <slot name="contentarea"/>
     </div>
     <!-- 底部操作按钮   -->
@@ -48,6 +51,10 @@ export default {
       type: Boolean,
       default: false
     },
+    formHeight: {
+      type: Number,
+      default: 50
+    },
     view: {
       type: Boolean,
       default: false
@@ -63,20 +70,28 @@ export default {
   },
   watch: {
     formLoading(loading) {
-      this.submitLoading = loading
-      if (loading) {
-        this.buttonLoading = dialogLoading()
-      } else {
-        if (this.buttonLoading) {
-          this.buttonLoading.close();
+      this.$nextTick(() => {
+        this.submitLoading = loading
+        if (loading) {
+          this.buttonLoading = dialogLoading()
+        } else {
+          if (this.buttonLoading) {
+            this.buttonLoading.close();
+          }
         }
-      }
+      });
+
     }
   },
   data() {
     return {
       buttonLoading: false,
-      submitLoading: false
+      submitLoading: false,
+      formStyle: {
+        height: this.formHeight + 'vh',
+        'overflow-y': 'auto',
+        'border-top': '2px solid #f5f7fa'
+      }
     }
   },
   methods: {
@@ -85,6 +100,7 @@ export default {
         let form = document.getElementsByClassName("dialog-form")[0];
         if (form) {
           form.scrollTop = 0;
+          form.height = '90vh';
         }
       });
       this.$emit('open')
@@ -175,11 +191,11 @@ export default {
     border: none !important;
   }
 
-  ::v-deep .el-input__inner::placeholder{
+  ::v-deep .el-input__inner::placeholder {
     opacity: 0;
   }
 
-  ::v-deep .el-textarea__inner::placeholder{
+  ::v-deep .el-textarea__inner::placeholder {
     opacity: 0;
   }
 
@@ -198,7 +214,8 @@ export default {
   ::v-deep .el-input-number__increase {
     display: none !important;
   }
-  .el-icon-view table-operation{
+
+  .el-icon-view table-operation {
     font-size: 5px;
   }
 }

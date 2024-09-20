@@ -1,21 +1,7 @@
 <template>
-  <CloudDialog
-    :width="width"
-    :title="title"
-    id="CloudDialog"
-    :formLoading="loading"
-    top="100px"
-    :view="readonly"
-    :close-on-click-modal="true"
-    :close-on-press-escape="false"
-    style="height: 90vh;overflow: auto;margin: 5vh auto"
-    :visible="visible"
-    @close="close"
-    @submitForm="submitForm"
-  >
+  <CloudDialog :width="width" :title="title" id="CloudDialog" :formLoading="loading" top="100px" :view="readonly" :visible="visible" @close="close" @submitForm="submitForm">
     <template v-slot:contentarea>
-      <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right"
-               label-width="100px">
+      <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right" label-width="100px">
         <el-form-item label="租户名称" prop="oemName">
           <el-input v-model="module.oemName" placeholder="请输入租户名称" show-word-limit maxlength="20"/>
         </el-form-item>
@@ -35,14 +21,7 @@
           <el-switch v-model="module.oemStatus" active-value="1" inactive-value="2"></el-switch>
         </el-form-item>
         <el-form-item label="授权时间" prop="time">
-          <el-date-picker
-            v-model="module.time"
-            value-format="yyyy-MM-dd"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期">
-          </el-date-picker>
+          <el-date-picker v-model="module.time" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
         </el-form-item>
       </el-form>
     </template>
@@ -62,7 +41,6 @@ export default {
       visible: false,
       loading: false,
       readonly: false,
-      screenWidth: 0,
       width: this.pageApi.initTabWidth(),
       form: {
         config: {}

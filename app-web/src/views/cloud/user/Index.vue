@@ -90,7 +90,7 @@
       >
         <template v-slot="scope">
           <i class="el-icon-view table-operation" @click="viewTab(scope.row)" v-has-permission="['USER_INFO:VIEW']">查看</i>
-          <el-dropdown @command="executeOperate" size="small" v-has-any-permission="getPermissionCode(operateOptions)">
+          <el-dropdown @command="executeOperate($event)" size="small" v-has-any-permission="getPermissionCode(operateOptions)">
             <span class="el-dropdown-link">{{ $t('table.operation') }}<i class="el-icon-arrow-down el-icon--right"></i></span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
@@ -152,7 +152,7 @@ export default {
       // 分页操作栏参数
       operateOptions: [
         {
-          value: 'edit',
+          value: 'editTab',
           label: 'table.edit',
           permission: 'USER_INFO:EDIT',
           param: ''
@@ -277,24 +277,6 @@ export default {
       this.queryParams = {}
       this.search()
     },
-    // 操作栏注册
-    executeOperate(c) {
-      switch (c.command) {
-        case 'changePassword':
-          this.changePassword(c.row)
-          break
-        default :
-          return
-      }
-    },
-    // 绑定操作栏指令
-    handleCommand(row, command, param) {
-      return {
-        row: row,
-        command: command,
-        param: param
-      }
-    }
   }
 }
 </script>

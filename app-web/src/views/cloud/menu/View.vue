@@ -1,22 +1,8 @@
 <template>
-  <CloudDialog
-    :width="width"
-    :title="title"
-    id="CloudDialog"
-    :formLoading="loading"
-    top="100px"
-    :view="readonly"
-    :close-on-click-modal="true"
-    :close-on-press-escape="false"
-    style="height: 90vh;overflow: auto;margin: 5vh auto"
-    :visible="visible"
-    @close="close"
-    @submitForm="submitForm"
-  >
+  <CloudDialog :width="width" :title="title" id="CloudDialog" :formLoading="loading" top="100px" :view="readonly" :visible="visible" @close="close" @submitForm="submitForm">
     <template v-slot:contentarea>
       <!--  表单部分  -->
-      <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right"
-               label-width="100px">
+      <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right" label-width="100px">
         <el-row>
           <el-col :span="12">
             <el-form-item prop="name">
@@ -31,12 +17,12 @@
           </el-col>
           <el-col :span="12">
             <el-form-item prop="authCode">
-        <span slot="label" style="display:inline-block;">
-        权限编码
-        <el-tooltip effect="dark" content="用于控制页面按钮权限" placement="bottom">
-          <i class='el-icon-question'/>
-        </el-tooltip>
-        </span>
+              <span slot="label" style="display:inline-block;">
+              权限编码
+              <el-tooltip effect="dark" content="用于控制页面按钮权限" placement="bottom">
+                <i class='el-icon-question'/>
+              </el-tooltip>
+              </span>
               <el-input v-model="module.authCode" placeholder="请输入权限编码" show-word-limit maxlength="20"/>
             </el-form-item>
           </el-col>
@@ -45,12 +31,7 @@
           <el-col :span="12">
             <el-form-item label="功能类型" prop="type">
               <el-select v-model="module.type" value="" placeholder="请选择功能类型">
-                <el-option
-                  v-for="item in form.dict.MODULE_TYPE"
-                  :key="item.dictKey"
-                  :label="item.dictValue"
-                  :value="String(item.dictKey)"
-                />
+                <el-option v-for="item in form.dict.MODULE_TYPE" :key="item.dictKey" :label="item.dictValue" :value="String(item.dictKey)"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -60,7 +41,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-row>
           <el-col :span="12">
             <el-form-item label="显示/隐藏" prop="hidden">
@@ -73,48 +53,35 @@
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-form-item label="菜单图标" prop="icon">
-          <el-upload
-            class="icon-uploader"
-            action="#"
-            accept=".png, .jpg"
-            :http-request="uploadIcon"
-            :show-file-list="false">
+          <el-upload class="icon-uploader" action="#" accept=".png, .jpg" :http-request="uploadIcon" :show-file-list="false">
             <img v-if="module.icon" :src="module.icon" class="menu-icon">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
-
         <el-form-item prop="jumpAction">
-         <span slot="label" style="display:inline-block;">
-        跳转地址
-        <el-tooltip effect="dark" content="用于Vue菜单路径跳转" placement="bottom">
-          <i class='el-icon-question'/>
-        </el-tooltip>
-        </span>
+           <span slot="label" style="display:inline-block;">
+          跳转地址
+          <el-tooltip effect="dark" content="用于Vue菜单路径跳转" placement="bottom">
+            <i class='el-icon-question'/>
+          </el-tooltip>
+          </span>
           <el-input v-model="module.jumpAction" placeholder="请输入跳转地址" show-word-limit maxlength="300"/>
         </el-form-item>
         <el-form-item label="路由地址" prop="routerName">
           <el-input v-model="module.routerName" placeholder="请输入路由地址" show-word-limit maxlength="300"/>
         </el-form-item>
         <el-form-item prop="serverApi">
-        <span slot="label" style="display:inline-block;">
-        接口地址
-        <el-tooltip effect="dark" content="用于控制接口级权限" placement="bottom">
-          <i class='el-icon-question'/>
-        </el-tooltip>
-        </span>
+          <span slot="label" style="display:inline-block;">
+          接口地址
+          <el-tooltip effect="dark" content="用于控制接口级权限" placement="bottom">
+            <i class='el-icon-question'/>
+          </el-tooltip>
+          </span>
           <el-input v-model="module.serverApi" placeholder="请输入接口地址" show-word-limit maxlength="300"/>
         </el-form-item>
-
         <el-form-item label="配置参数" prop="configJson">
-          <el-input
-            type="textarea"
-            v-model="module.configJson"
-            placeholder="请输入配置参数"
-            show-word-limit
-            maxlength="500"></el-input>
+          <el-input type="textarea" v-model="module.configJson" placeholder="请输入配置参数" show-word-limit maxlength="500"></el-input>
         </el-form-item>
       </el-form>
     </template>
@@ -133,7 +100,6 @@ export default {
       visible: false,
       loading: false,
       readonly: false,
-      screenWidth: 0,
       width: this.pageApi.initTabWidth(),
       // 表单数据
       module: {

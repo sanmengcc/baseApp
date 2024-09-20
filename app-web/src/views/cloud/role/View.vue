@@ -1,21 +1,7 @@
 <template>
-  <CloudDialog
-    :width="width"
-    :title="title"
-    id="CloudDialog"
-    :formLoading="loading"
-    top="100px"
-    :view="readonly"
-    :close-on-click-modal="true"
-    :close-on-press-escape="false"
-    style="height: 90vh;overflow: auto;margin: 5vh auto"
-    :visible="visible"
-    @close="close"
-    @submitForm="submitForm"
-  >
+  <CloudDialog :width="width" :title="title" id="CloudDialog" :formLoading="loading" top="100px" :view="readonly" :visible="visible" @close="close" @submitForm="submitForm">
     <template v-slot:contentarea>
-      <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right"
-               label-width="100px">
+      <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right" label-width="100px">
       <el-form-item label="角色名称" prop="roleName">
         <el-input v-model="module.roleName" placeholder="请输入角色名称" show-word-limit maxlength="20"/>
       </el-form-item>
@@ -24,12 +10,7 @@
       </el-form-item>
       <el-form-item label="角色类型" prop="roleType">
         <el-select v-model="module.roleType" value="" placeholder="请选择角色类型">
-          <el-option
-            v-for="item in form.dict.ROLE_TYPE"
-            :key="item.dictKey"
-            :label="item.dictValue"
-            :value="String(item.dictKey)"
-          />
+          <el-option v-for="item in form.dict.ROLE_TYPE" :key="item.dictKey" :label="item.dictValue" :value="String(item.dictKey)"/>
         </el-select>
       </el-form-item>
       </el-form>
@@ -47,7 +28,6 @@ export default {
       visible: false,
       loading: false,
       readonly: false,
-      screenWidth: 0,
       width: this.pageApi.initTabWidth(),
       form: {
         dict: {}

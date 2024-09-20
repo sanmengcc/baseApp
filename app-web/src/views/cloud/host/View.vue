@@ -1,21 +1,7 @@
 <template>
-  <CloudDialog
-    :width="width"
-    :title="title"
-    id="CloudDialog"
-    :formLoading="loading"
-    top="100px"
-    :view="readonly"
-    :close-on-click-modal="true"
-    :close-on-press-escape="false"
-    style="height: 90vh;overflow: auto;margin: 5vh auto"
-    :visible="visible"
-    @close="close"
-    @submitForm="submitForm"
-  >
+  <CloudDialog :width="width" :title="title" id="CloudDialog" :formLoading="loading" top="100px" :view="readonly" :visible="visible" @close="close" @submitForm="submitForm">
     <template v-slot:contentarea>
-      <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right"
-               label-width="100px">
+      <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right" label-width="100px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="系统域名" prop="host">
@@ -23,9 +9,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="系统名称" prop="sysName"
-                          :rules="dynamicValidate.sysName"
-            >
+            <el-form-item label="系统名称" prop="sysName" :rules="dynamicValidate.sysName">
               <el-input v-model="form.config.sysName" placeholder="请输入系统域名" show-word-limit maxlength="20"/>
             </el-form-item>
           </el-col>
@@ -34,12 +18,7 @@
           <el-col :span="12">
             <el-form-item label="所属租户" prop="oemCode">
               <el-select v-model="module.oemCode" placeholder="请选择所属租户">
-                <el-option
-                  v-for="item in form.oem"
-                  :key="item.oemCode"
-                  :label="item.oemName"
-                  :value="String(item.oemCode)"
-                />
+                <el-option v-for="item in form.oem" :key="item.oemCode" :label="item.oemName" :value="String(item.oemCode)"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -49,17 +28,10 @@
             </el-form-item>
           </el-col>
         </el-row>
-
-
         <el-row>
           <el-col :span="12">
             <el-form-item label="网站图标">
-              <el-upload
-                class="icon-uploader"
-                action="#"
-                accept=".png, .jpg,.svg"
-                :http-request="(params) => upload(params,'favicon')"
-                :show-file-list="false">
+              <el-upload class="icon-uploader" action="#" accept=".png, .jpg,.svg" :http-request="(params) => upload(params,'favicon')" :show-file-list="false">
                 <img v-if="form.config.favicon" :src="form.config.favicon" class="menu-icon">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
@@ -67,28 +39,17 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="登录页背景图">
-              <el-upload
-                class="icon-uploader"
-                action="#"
-                accept=".png, .jpg,.svg"
-                :http-request="(params) => upload(params,'backgroundImage')"
-                :show-file-list="false">
+              <el-upload class="icon-uploader" action="#" accept=".png, .jpg,.svg" :http-request="(params) => upload(params,'backgroundImage')" :show-file-list="false">
                 <img v-if="form.config.backgroundImage" :src="form.config.backgroundImage" class="menu-icon">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-row>
           <el-col :span="12">
             <el-form-item label="登录页特效图">
-              <el-upload
-                class="icon-uploader"
-                action="#"
-                accept=".png, .jpg,.svg"
-                :http-request="(params) => upload(params,'loginLeftImage')"
-                :show-file-list="false">
+              <el-upload class="icon-uploader" action="#" accept=".png, .jpg,.svg" :http-request="(params) => upload(params,'loginLeftImage')" :show-file-list="false">
                 <img v-if="form.config.loginLeftImage" :src="form.config.loginLeftImage" class="menu-icon">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
@@ -96,12 +57,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="登录页LOGO">
-              <el-upload
-                class="icon-uploader"
-                action="#"
-                accept=".png, .jpg,.svg"
-                :http-request="(params) => upload(params,'loginLogo')"
-                :show-file-list="false">
+              <el-upload class="icon-uploader" action="#" accept=".png, .jpg,.svg" :http-request="(params) => upload(params,'loginLogo')" :show-file-list="false">
                 <img v-if="form.config.loginLogo" :src="form.config.loginLogo" class="menu-icon">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
@@ -157,8 +113,6 @@ export default {
           favicon: '',
         },
       },
-      // 页面大小控制
-      screenWidth: 0,
       width: this.pageApi.initTabWidth(),
       // rule规则验证
       rules: {

@@ -27,7 +27,7 @@ import * as filters from './filters' // global filters
 import i18n from './lang'
 
 import {hasPermission, hasNoPermission, hasAnyPermission, getPermissionCode,showPermission} from './utils/permissionDirect'
-import { resetForm } from "@/utils/core";
+import {resetForm, handleCommand, executeOperate} from "@/utils/core";
 
 /**
  * If you don't want to use mock-server
@@ -45,6 +45,8 @@ const Plugins = [
 Vue.prototype.getPermissionCode = getPermissionCode
 Vue.prototype.showPermission = showPermission
 Vue.prototype.resetForm = resetForm
+Vue.prototype.handleCommand = handleCommand
+Vue.prototype.executeOperate = executeOperate
 
 Plugins.map((plugin) => {
   Vue.use(plugin)

@@ -5,14 +5,20 @@ export function initTabWidth() {
   if (this.screenWidth < 550) {
     return '95%'
   } else if (this.screenWidth < 990) {
-    return '580px'
+    return '680px'
   } else if (this.screenWidth < 1400) {
-    return '600px'
+    return '700px'
   } else {
-    return '650px'
+    return '750px'
   }
 }
 
+export function initTabHalfWidth() {
+  this.screenWidth = document.body.clientWidth
+  return '40%'
+}
+
+
 export default {
-  initTabWidth
+  initTabWidth,initTabHalfWidth
 }

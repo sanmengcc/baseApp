@@ -12,6 +12,7 @@ export const servicesLoading = (node,str,lock) => {
 }
 
 export const dialogLoading = () => {
+  console.log(document.querySelector("#CloudDialog").querySelector("#el-form"))
   return Loading.service({
     target: document.querySelector("#CloudDialog").querySelector("#el-form"),
     text: '正在加载',

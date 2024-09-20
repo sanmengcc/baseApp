@@ -3,67 +3,22 @@
     <!-- 头部搜索栏   -->
     <div class="filter-container" ref="header" style="width: 100%;">
       <el-form ref="form" :inline="true" label-width="80px">
-        <el-input
-            v-model="queryParams.keyword"
-            placeholder="请输入关键字"
-            class="filter-item search-item"
-        />
-        <el-button class="filter-item" type="primary" plain @click="search">
-          {{ $t('table.search') }}
-        </el-button>
-        <el-button class="filter-item" type="success" plain @click="reset">
-          {{ $t('table.reset') }}
-        </el-button>
+        <el-input v-model="queryParams.keyword" placeholder="请输入关键字" class="filter-item search-item"/>
+        <el-button class="filter-item" type="primary" plain @click="search">查询</el-button>
+        <el-button class="filter-item" type="success" plain @click="reset">重置</el-button>
       </el-form>
     </div>
     <!-- 分页组件   -->
-    <CloudTb
-        ref="cloudTb"
-        :page="pageData"
-        :pageOptions="pageOptions"
-        @pagination="pagination"
-    >
-      <el-table-column
-          prop="fileName"
-          min-width="200px"
-          label="文件名称"
-      />
-      <el-table-column
-          prop="bucketName"
-          label="存储桶"
-          width="100"
-      />
-      <el-table-column
-          prop="protocol"
-          width="100"
-          label="存储协议"
-      />
-      <el-table-column
-          prop="fileSize"
-          label="文件大小"
-          width="100"
-      />
-      <el-table-column
-          prop="fileMd5"
-          label="文件MD5"
-          min-width="200px"
-      />
-      <el-table-column
-          prop="gmtCreate"
-          label="上传时间"
-          min-width="150px"
-          sortable
-      />
-      <el-table-column
-        prop="fileUrl"
-        width="100px"
-        align="left"
-        label="文件URL"
-      >
+    <CloudTb ref="cloudTb" :page="pageData" @pagination="pagination">
+      <el-table-column prop="fileName" min-width="200px" label="文件名称"/>
+      <el-table-column prop="bucketName" label="存储桶" width="100"/>
+      <el-table-column prop="protocol" width="100" label="存储协议"/>
+      <el-table-column prop="fileSize" label="文件大小" width="100"/>
+      <el-table-column prop="fileMd5" label="文件MD5" min-width="200px"/>
+      <el-table-column prop="gmtCreate" label="上传时间" min-width="150px" sortable/>
+      <el-table-column prop="fileUrl" width="100px" align="left" label="文件URL">
         <template v-slot="{row}">
-          <a style="color: #87d068;" type="primary" plain @click="copy(row.fileUrl)">
-            复制地址
-          </a>
+          <a style="color: #87d068;" type="primary" plain @click="copy(row.fileUrl)">复制地址</a>
         </template>
       </el-table-column>
     </CloudTb>
@@ -90,13 +45,6 @@ export default {
         currentPage: 1,
         maxPage: 1,
         pageSize: 20
-      },
-      pageOptions: {
-      },
-      // 子页面的显示控制参数
-      dialog: {
-        isVisible: false,
-        title: ''
       },
       // loading参数
       loading: false,
@@ -166,24 +114,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.filter-container {
-  .el-table--scrollable-x .el-table__body-wrapper {
-    overflow-x: auto;
-  }
-}
-
-.el-dropdown-link {
-  cursor: pointer;
-  color: #409EFF;
-}
-
-.el-icon-arrow-down {
-  font-size: 12px;
-}
-
-.table-operation {
-  font-size: 14px;
-  color: #87d068;
-}
-</style>

@@ -53,7 +53,7 @@ service.interceptors.response.use(
         if (encryptHeader == 'true') {
             res.data = JSON.parse(decrypt(res.data, "", ""));
         }
-
+        console.log(res.data)
         if (code === '600' || code === 600) {
             router.push('/login')
             messageOnce.error({

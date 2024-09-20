@@ -3,76 +3,31 @@
     <!-- 头部搜索栏   -->
     <div class="filter-container" ref="header" style="width: 100%;">
       <el-form ref="form" :inline="true" label-width="80px">
-        <el-input
-            v-model="queryParams.keyword"
-            placeholder="请输入关键字"
-            class="filter-item search-item"
-        />
-        <el-select class="filter-item search-item"
-                   v-model="queryParams.result"
-                   placeholder="操作状态">
-          <el-option
-              v-for="item in dict.COMMON_FLAG"
-              :key="item.dictKey"
-              :label="item.dictValue"
-              :value="item.dictKey">
-          </el-option>
+        <el-input v-model="queryParams.keyword" placeholder="请输入关键字" class="filter-item search-item"/>
+        <el-select class="filter-item search-item" v-model="queryParams.result" placeholder="操作状态">
+          <el-option v-for="item in dict.COMMON_FLAG" :key="item.dictKey" :label="item.dictValue" :value="item.dictKey"/>
         </el-select>
-        <el-date-picker
-            class="filter-item search-item"
-            v-model="extra.time"
-            type="datetimerange"
-            value-format="yyyy-MM-dd HH:mm:ss"
+        <el-date-picker class="filter-item search-item" v-model="extra.time" type="datetimerange" value-format="yyyy-MM-dd HH:mm:ss"
             :picker-options="extra.pickerOptions"
             range-separator="至"
             start-placeholder="开始时间"
             end-placeholder="结束时间"
             align="right">
         </el-date-picker>
-        <el-button class="filter-item" type="primary" plain @click="search">
-          {{ $t('table.search') }}
-        </el-button>
-        <el-button class="filter-item" type="success" plain @click="reset">
-          {{ $t('table.reset') }}
-        </el-button>
-        <el-button v-has-permission="['API_LOG:DEL']" class="filter-item" type="danger" plain @click="deleteTime('week')">
-          删除近一周
-        </el-button>
-        <el-button v-has-permission="['API_LOG:DEL']" class="filter-item" type="danger" plain @click="deleteTime('month')">
-          删除近一月
-        </el-button>
-        <el-button v-has-permission="['API_LOG:DEL']" class="filter-item" type="danger" plain @click="deleteTime('year')">
-          删除近一年
-        </el-button>
+        <el-button class="filter-item" type="primary" plain @click="search">查询</el-button>
+        <el-button class="filter-item" type="success" plain @click="reset">重置</el-button>
+        <el-button v-has-permission="['API_LOG:DEL']" class="filter-item" type="danger" plain @click="deleteTime('week')">删除近一周</el-button>
+        <el-button v-has-permission="['API_LOG:DEL']" class="filter-item" type="danger" plain @click="deleteTime('month')">删除近一月</el-button>
+        <el-button v-has-permission="['API_LOG:DEL']" class="filter-item" type="danger" plain @click="deleteTime('year')">删除近一年</el-button>
       </el-form>
     </div>
     <!-- 分页组件   -->
-    <CloudTb
-        ref="cloudTb"
-        :page="pageData"
-        :pageOptions="pageOptions"
-        @pagination="pagination"
-    >
-      <el-table-column
-          prop="ip"
-          label="登陆IP"
-      />
-      <el-table-column
-          prop="account"
-          label="操作账号"
-      />
-      <el-table-column
-          prop="useTime"
-          label="操作耗时"
-          sortable
-      />
-      <el-table-column
-          prop="methodName"
-          label="操作方法"
-      />
-      <el-table-column
-          label="操作状态"
-      >
+    <CloudTb ref="cloudTb" :page="pageData" @pagination="pagination">
+      <el-table-column prop="ip" label="登陆IP"/>
+      <el-table-column  prop="account" label="操作账号"/>
+      <el-table-column prop="useTime" label="操作耗时" sortable/>
+      <el-table-column prop="methodName" label="操作方法"/>
+      <el-table-column label="操作状态">
         <template v-slot="{row}">
           <el-tag type="success" v-if="row.result === '1'">
             {{ row.resultLabel }}
@@ -82,10 +37,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column
-          prop="gmtCreate"
-          label="操作时间"
-      />
+      <el-table-column prop="gmtCreate" label="操作时间"/>
     </CloudTb>
   </div>
 </template>
@@ -143,12 +95,6 @@ export default {
         maxPage: 1,
         pageSize: 20
       },
-      pageOptions: {},
-      // 子页面的显示控制参数
-      dialog: {
-        isVisible: false,
-        title: ''
-      },
       // loading参数
       loading: false,
       // 查询参数
@@ -187,10 +133,6 @@ export default {
       }).catch(() => {
         this.search()
       })
-    },
-    // 窗口关闭回调
-    close(tab) {
-      this.dialog[tab] = false
     },
     // 分页查询
     fetch(params = {}) {
@@ -233,25 +175,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.filter-container {
-  .el-table--scrollable-x .el-table__body-wrapper {
-    overflow-x: auto;
-    overflow-y: auto;
-  }
-}
-
-.el-dropdown-link {
-  cursor: pointer;
-  color: #409EFF;
-}
-
-.el-icon-arrow-down {
-  font-size: 12px;
-}
-
-.table-operation {
-  font-size: 14px;
-  color: #87d068;
-}
-</style>

@@ -6,7 +6,7 @@
       class="cloud-table"
       :load='tbTreeLoad'
       :lazy="pageOptions.lazy || false"
-      :row-key="pageOptions.rowKey"
+      :row-key="pageOptions.rowKey || null"
       :tree-props="pageOptions.tree_props"
       :data="page.dataList"
       :height="screenHeight"
@@ -52,7 +52,13 @@ export default {
     },
     pageOptions: {
       type: Object,
-      required: true
+      required: false,
+      default() {
+        return {
+          lazy:false,
+          tree_props:{}
+        };
+      }
     },
     rowKey: {
       type: String,

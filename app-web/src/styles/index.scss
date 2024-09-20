@@ -579,3 +579,23 @@ li.el-menu-item {
   padding: 0px;
   margin: 0px 0px 0px 0px;
 }
+
+.filter-container {
+  .el-table--scrollable-x .el-table__body-wrapper {
+    overflow-x: auto;
+  }
+}
+
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409EFF;
+}
+
+.el-icon-arrow-down {
+  font-size: 12px;
+}
+
+.table-operation {
+  font-size: 14px;
+  color: #87d068;
+}

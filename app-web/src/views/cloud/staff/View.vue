@@ -1,22 +1,8 @@
 <template>
-  <CloudDialog
-    :width="width"
-    :title="title"
-    id="CloudDialog"
-    :formLoading="loading"
-    top="100px"
-    :view="readonly"
-    :close-on-click-modal="true"
-    :close-on-press-escape="false"
-    style="height: 90vh;overflow: auto;margin: 5vh auto"
-    :visible="visible"
-    @close="close"
-    @submitForm="submitForm"
-  >
+  <CloudDialog :width="width" :title="title" id="CloudDialog" :formLoading="loading" top="100px" :view="readonly" :visible="visible" @close="close" @submitForm="submitForm">
     <!--  表单部分  -->
     <template v-slot:contentarea>
-      <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right"
-               label-width="100px">
+      <el-form ref="form" id="el-form" :disabled="readonly" :model="module" :rules="rules" label-position="right" label-width="100px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="用户名" prop="account">
@@ -44,23 +30,13 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="入职日期" prop="entryDate">
-              <el-date-picker
-                v-model="module.entryDate"
-                value-format="yyyy-MM-dd"
-                type="date"
-                placeholder="请选择入职日期">
-              </el-date-picker>
+              <el-date-picker v-model="module.entryDate" value-format="yyyy-MM-dd" type="date" placeholder="请选择入职日期"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="员工类型" prop="adminType">
               <el-select v-model="module.adminType" value="" placeholder="请选择员工类型">
-                <el-option
-                  v-for="item in form.dict.ADMIN_TYPE"
-                  :key="item.dictKey"
-                  :label="item.dictValue"
-                  :value="String(item.dictKey)"
-                />
+                <el-option v-for="item in form.dict.ADMIN_TYPE" :key="item.dictKey" :label="item.dictValue" :value="String(item.dictKey)"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -68,12 +44,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="头像图片" prop="avatarUrl">
-              <el-upload
-                class="icon-uploader"
-                action="#"
-                accept=".png, .jpg"
-                :http-request="uploadIcon"
-                :show-file-list="false" >
+              <el-upload class="icon-uploader" action="#" accept=".png, .jpg" :http-request="uploadIcon" :show-file-list="false" >
                 <img v-if="module.avatarUrl" :src="module.avatarUrl" class="menu-icon">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
@@ -82,12 +53,7 @@
           <el-col :span="12">
             <el-form-item label="在职状态" prop="status">
               <el-select v-model="module.status" value="" placeholder="请选择在职状态">
-                <el-option
-                  v-for="item in form.dict.WORK_STATUS"
-                  :key="item.dictKey"
-                  :label="item.dictValue"
-                  :value="String(item.dictKey)"
-                />
+                <el-option v-for="item in form.dict.WORK_STATUS" :key="item.dictKey" :label="item.dictValue" :value="String(item.dictKey)"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -113,7 +79,6 @@ export default {
       loading: false,
       disabled: false,
       readonly: false,
-      screenWidth: 0,
       width: this.pageApi.initTabWidth(),
       module: {
         staffId:''
