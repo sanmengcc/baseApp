@@ -17,6 +17,11 @@ public class MinioConfig {
     private String endpoint;
 
     /**
+     * 访问的url
+     */
+    private String accessURL;
+
+    /**
      * 密钥
      */
     private String secretKey;

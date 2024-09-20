@@ -1,6 +1,7 @@
 package com.base.core.entity;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -12,12 +13,12 @@ public class PageRo extends BaseValue{
     /**
      * 当前页
      */
-    @NotBlank(message = "分页参数currentPage不能为空")
+    @NotNull(message = "分页参数currentPage不能为空")
     private Long currentPage;
 
     /**
      * 分页查询的条数
      */
-    @NotBlank(message = "分页参数pageSize不能为空")
+    @NotNull(message = "分页参数pageSize不能为空")
     private Long pageSize;
 }

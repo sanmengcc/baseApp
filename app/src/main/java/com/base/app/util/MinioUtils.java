@@ -90,7 +90,7 @@ public class MinioUtils {
                                     bis, bis.available(), -1)
                             .build());
             bis.close();
-            return minioConfig.getEndpoint() + "/" + bucketName + "/" + path;
+            return minioConfig.getAccessURL() + "/" + bucketName + "/" + path;
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new CloudException(OssErrorCode.SYSTEM_ERROR);
