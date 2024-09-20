@@ -1,6 +1,8 @@
 package com.base.app.ro.core.oem;
 
 import com.base.core.entity.BaseRo;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.Date;
@@ -10,22 +12,26 @@ public class EditRo extends BaseRo {
     /**
      * 租户id
      */
+    @NotNull(message = "租户ID不能为空")
     private Long oemId;
 
     /**
      * 租户名称
      */
+    @NotBlank(message = "租户名称不能为空")
     private String oemName;
-
-    /**
-     * 租户状态
-     */
-    private String oemStatus;
 
     /**
      * 租户编码
      */
+    @NotBlank(message = "租户编码不能为空")
     private String oemCode;
+
+    /**
+     * 租户状态
+     */
+    @NotBlank(message = "租户状态不能为空")
+    private String oemStatus;
 
     /**
      * 租户联系电话

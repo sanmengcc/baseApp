@@ -12,6 +12,7 @@ import com.base.core.context.CloudManager;
 import com.base.core.entity.R;
 import com.base.core.entity.UserInfo;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class UserCenterAPI extends BaseAPI {
 
     @Api(name = "管理员修改用户密码")
     @PostMapping(value = "/changePasswordByAdmin")
-    public R changePasswordByAdmin(@RequestBody ChangePasswordAdminRo ro) {
+    public R changePasswordByAdmin(@Valid @RequestBody ChangePasswordAdminRo ro) {
         userService.updatePasswordByAdmin(ro.getUserGlobalId(), ro.getPassword());
         return R.ok();
     }

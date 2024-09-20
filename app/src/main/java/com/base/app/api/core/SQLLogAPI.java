@@ -7,6 +7,7 @@ import com.base.core.annotation.Api;
 import com.base.core.api.BaseAPI;
 import com.base.core.entity.R;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class SQLLogAPI extends BaseAPI {
 
     @Api(name = "分页查询SQL日志")
     @GetMapping(value = "/page")
-    public R page(SQLLogPageRo ro) {
+    public R page(@Valid SQLLogPageRo ro) {
         return R.ok(sqlLogService.searchPage(ro));
     }
 
@@ -33,7 +34,7 @@ public class SQLLogAPI extends BaseAPI {
 
     @Api(name = "删除日志")
     @PostMapping(value = "/delete")
-    public R delete(@RequestBody SQLDeleteRo ro) {
+    public R delete(@Valid @RequestBody SQLDeleteRo ro) {
         this.sqlLogService.delete(ro.getKey());
         return R.ok();
     }

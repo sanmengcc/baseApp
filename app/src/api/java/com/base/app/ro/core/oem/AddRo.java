@@ -1,6 +1,7 @@
 package com.base.app.ro.core.oem;
 
 import com.base.core.entity.BaseRo;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.Date;
@@ -11,16 +12,19 @@ public class AddRo extends BaseRo {
     /**
      * 租户名称
      */
+    @NotBlank(message = "租户名称不能为空")
     private String oemName;
 
     /**
      * 租户编码
      */
+    @NotBlank(message = "租户编码不能为空")
     private String oemCode;
 
     /**
      * 租户状态
      */
+    @NotBlank(message = "租户状态不能为空")
     private String oemStatus;
 
     /**

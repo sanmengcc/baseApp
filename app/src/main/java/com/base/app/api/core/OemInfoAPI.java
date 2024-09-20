@@ -9,6 +9,7 @@ import com.base.core.annotation.Api;
 import com.base.core.annotation.ApiPermission;
 import com.base.core.entity.R;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,28 +25,28 @@ public class OemInfoAPI {
 
     @Api(name = "新增租户")
     @PostMapping(value = "/add")
-    public R add(@RequestBody AddRo ro) {
+    public R add(@Valid @RequestBody AddRo ro) {
         oemInfoService.addOem(ro);
         return R.ok();
     }
 
     @Api(name = "修改租户")
     @PostMapping(value = "/edit")
-    public R edit(@RequestBody EditRo ro) {
+    public R edit(@Valid @RequestBody EditRo ro) {
         oemInfoService.update(ro);
         return R.ok();
     }
 
     @Api(name = "删除租户")
     @PostMapping(value = "/delete")
-    public R delete(@RequestBody DeleteRo ro) {
+    public R delete(@Valid @RequestBody DeleteRo ro) {
         oemInfoService.delete(ro.getOemId());
         return R.ok();
     }
 
     @Api(name = "分页查询租户")
     @GetMapping(value = "/page")
-    public R page(SearchRo ro) {
+    public R page(@Valid SearchRo ro) {
         return R.ok(oemInfoService.searchPage(ro));
     }
 

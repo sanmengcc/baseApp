@@ -7,6 +7,7 @@ import com.base.core.annotation.ApiPermission;
 import com.base.core.api.BaseAPI;
 import com.base.core.entity.R;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,21 +23,21 @@ public class RoleAPI extends BaseAPI {
 
     @Api(name = "新增角色")
     @PostMapping(value = "/add")
-    public R add(@RequestBody AddRo ro) {
+    public R add(@Valid @RequestBody AddRo ro) {
         roleService.addRole(ro);
         return R.ok();
     }
 
     @Api(name = "修改角色")
     @PostMapping(value = "/edit")
-    public R edit(@RequestBody EditRo ro) {
+    public R edit(@Valid @RequestBody EditRo ro) {
         this.roleService.updateRole(ro);
         return R.ok();
     }
 
     @Api(name = "删除角色")
     @PostMapping(value = "/delete")
-    public R delete(@RequestBody DeleteRo ro) {
+    public R delete(@Valid @RequestBody DeleteRo ro) {
         this.roleService.delete(ro.getRoleId());
         return R.ok();
     }
@@ -49,7 +50,7 @@ public class RoleAPI extends BaseAPI {
 
     @Api(name = "分页查询角色")
     @GetMapping(value = "/page")
-    public R page(SearchRo ro) {
+    public R page(@Valid SearchRo ro) {
         return R.ok(this.roleService.searchPage(ro));
     }
 

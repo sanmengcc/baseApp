@@ -11,6 +11,7 @@ import com.base.core.api.BaseAPI;
 import com.base.core.entity.R;
 import com.base.util.ServletUtils;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,27 +36,27 @@ public class ConfigAPI extends BaseAPI {
 
     @Api(name = "分页查询域名配置列表")
     @GetMapping(value = "/page")
-    public R page(SearchRo ro) {
+    public R page(@Valid SearchRo ro) {
         return R.ok(this.hostConfigService.searchPage(ro));
     }
 
     @Api(name = "删除域名配置")
     @PostMapping(value = "/delete")
-    public R delete(@RequestBody DeleteRo ro) {
+    public R delete(@Valid @RequestBody DeleteRo ro) {
         this.hostConfigService.delete(ro.getConfigId());
         return R.ok();
     }
 
     @Api(name = "新增域名配置")
     @PostMapping(value = "/add")
-    public R add(@RequestBody AddRo ro) {
+    public R add(@Valid @RequestBody AddRo ro) {
         this.hostConfigService.addConfig(ro);
         return R.ok();
     }
 
     @Api(name = "修改域名配置")
     @PostMapping(value = "/edit")
-    public R edit(@RequestBody EditRo ro) {
+    public R edit(@Valid @RequestBody EditRo ro) {
         this.hostConfigService.update(ro);
         return R.ok();
     }

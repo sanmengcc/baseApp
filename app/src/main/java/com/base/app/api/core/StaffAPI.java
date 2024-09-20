@@ -10,6 +10,7 @@ import com.base.core.annotation.Api;
 import com.base.core.api.BaseAPI;
 import com.base.core.entity.R;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,27 +26,27 @@ public class StaffAPI extends BaseAPI {
 
     @Api(name = "分页查询员工列表")
     @GetMapping(value = "/page")
-    public R page(SearchRo ro) {
+    public R page(@Valid SearchRo ro) {
         return R.ok(staffService.searchPage(ro));
     }
 
     @Api(name = "新增员工")
     @PostMapping(value = "/add")
-    public R add(@RequestBody AddRo addRo) {
+    public R add(@Valid @RequestBody AddRo addRo) {
         this.staffService.addStaff(addRo);
         return R.ok();
     }
 
     @Api(name = "修改员工详情")
     @PostMapping(value = "/edit")
-    public R edit(@RequestBody EditRo editRo) {
+    public R edit(@Valid@RequestBody EditRo editRo) {
         this.staffService.update(editRo);
         return R.ok();
     }
 
     @Api(name = "删除员工")
     @PostMapping(value = "/delete")
-    public R delete(@RequestBody DeleteRo ro) {
+    public R delete(@Valid @RequestBody DeleteRo ro) {
         this.staffService.delete(ro.getStaffId(), ro.getUserGlobalId());
         return R.ok();
     }
