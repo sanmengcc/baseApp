@@ -19,6 +19,7 @@
   >
     <!-- Form表单 -->
     <div
+      v-loading="submitLoading"
       contenteditable="false"
       :class="view ? 'dialog-form-view' : 'dialog-form'"
       :style="formStyle">
@@ -36,8 +37,6 @@
   </el-dialog>
 </template>
 <script>
-
-import {dialogLoading} from '@/utils/loading'
 
 export default {
   name: 'CloudDialog',
@@ -72,15 +71,7 @@ export default {
     formLoading(loading) {
       this.$nextTick(() => {
         this.submitLoading = loading
-        if (loading) {
-          this.buttonLoading = dialogLoading()
-        } else {
-          if (this.buttonLoading) {
-            this.buttonLoading.close();
-          }
-        }
       });
-
     }
   },
   data() {
